@@ -4,12 +4,21 @@ Working with Git and it's great branching/merging features is amazing. Constantl
 
 The solution to this is to have your terminal prompt display the current branch. There's a [number][1] [of][3] [articles][3] [available][4] online about how to achieve this.
 
-I based this project mainly on [Aaron Crane's solution][1].
+I based this project mainly on Aaron Crane's [solution][1].
 
 [1]: http://aaroncrane.co.uk/2009/03/git_branch_prompt/
 [2]: http://railstips.org/2009/2/2/bedazzle-your-bash-prompt-with-git-info
 [3]: http://techblog.floorplanner.com/2008/12/14/working-with-git-branches/
 [4]: http://www.intridea.com/2009/2/2/git-status-in-your-prompt
+
+
+## Overview
+
+If you `cd` to a Git working directory, you will see the current Git branch name displayed in your terminal prompt like so:
+
+![Git Branch in Prompt](http://snap.jimeh.me/git-branch-in-prompt.png)
+
+When you're not in a Git working directory, your prompt works like normal.
 
 
 ## Installation
@@ -24,19 +33,14 @@ Edit your `~/.bash_profile` or `~/.profile` and add the following to the top:
     source $DOTBASH/main.sh
     PS1="\u@\h:\w\[$txtcyn\]\$git_branch\[$txtrst\]\\$ "
 
-Configure your prompt by editing the `PS1 variable`. For a list of available colors check `colors.sh`.
 
+## Configuring
 
-## Screenshot
+If you followed the above installation instructions, you've added the default prompt style already by defining the `PS1` variable. If you don't know how to customize your prompt, I recommend you check [this][1] how-to.
 
-![Git Branch in Prompt](http://snap.jimeh.me/git-branch-in-prompt.png)
+Basically, to have the current Git branch shown, simply add `$git_branch` to your `PS1` variable, and make sure the variable value is defined with double quotes. A set of color variables have also been set for you to use. For a list of available colors check `colors.sh`.
 
-
-## Issues
-
-Please report any issues and bugs [here][1] on GitHub.
-
-[1]: http://github.com/jimeh/git-branch-in-prompt/issues
+[1]: http://www.cyberciti.biz/tips/howto-linux-unix-bash-shell-setup-prompt.html
 
 
 ## License
