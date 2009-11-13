@@ -1,4 +1,4 @@
-# Git Branch in Prompt
+# Git Aware Prompt
 
 Working with Git and it's great branching/merging features is amazing. Constantly switching branches can be confusing though as you have to run `git status` to see which branch you're currently on.
 
@@ -9,20 +9,18 @@ I based this project mainly on Aaron Crane's [solution][1].
 
 ## Overview
 
-If you `cd` to a Git working directory, you will see the current Git branch name displayed in your terminal prompt like so:
+If you `cd` to a Git working directory, you will see the current Git branch name displayed in your terminal prompt. When you're not in a Git working directory, your prompt works like normal.
 
-![Git Branch in Prompt](http://snap.jimeh.me/git-branch-in-prompt.png)
-
-When you're not in a Git working directory, your prompt works like normal.
+![Git Branch in Prompt](http://snap.jimeh.me/git-aware-prompt.png)
 
 
 ## Installation
 
 Clone the project to a `.bash` folder in your home directory:
 
-    git clone git://github.com/jimeh/git-branch-in-prompt.git ~/.bash
+    git clone git://github.com/jimeh/git-aware-prompt.git ~/.bash
 
-Edit your `~/.bash_profile` or `~/.profile` and add the following to the top:
+Edit your  `~/.profile` or `~/.bash_profile` and add the following to the top:
 
     export DOTBASH=~/.bash
     source $DOTBASH/main.sh
