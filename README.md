@@ -2,14 +2,9 @@
 
 Working with Git and it's great branching/merging features is amazing. Constantly switching branches can be confusing though as you have to run `git status` to see which branch you're currently on.
 
-The solution to this is to have your terminal prompt display the current branch. There's a [number][1] [of][3] [articles][3] [available][4] online about how to achieve this.
+The solution to this is to have your terminal prompt display the current branch. There's a [number][1] [of][2] [articles][3] [available][4] online about how to achieve this.
 
 I based this project mainly on Aaron Crane's [solution][1].
-
-[1]: http://aaroncrane.co.uk/2009/03/git_branch_prompt/
-[2]: http://railstips.org/2009/2/2/bedazzle-your-bash-prompt-with-git-info
-[3]: http://techblog.floorplanner.com/2008/12/14/working-with-git-branches/
-[4]: http://www.intridea.com/2009/2/2/git-status-in-your-prompt
 
 
 ## Overview
@@ -36,11 +31,9 @@ Edit your `~/.bash_profile` or `~/.profile` and add the following to the top:
 
 ## Configuring
 
-If you followed the above installation instructions, you've added the default prompt style already by defining the `PS1` variable. If you don't know how to customize your prompt, I recommend you check [this][1] how-to.
+If you followed the above installation instructions, you've added the default prompt style already by defining the `PS1` variable. If you don't know how to customize your prompt, I recommend you check [this][5] how-to.
 
 Basically, to have the current Git branch shown, simply add `$git_branch` to your `PS1` variable, and make sure the variable value is defined with double quotes. A set of color variables have also been set for you to use. For a list of available colors check `colors.sh`.
-
-[1]: http://www.cyberciti.biz/tips/howto-linux-unix-bash-shell-setup-prompt.html
 
 
 ## License
@@ -61,3 +54,11 @@ IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
 CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
 TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+
+
+[1]: http://aaroncrane.co.uk/2009/03/git_branch_prompt/
+[2]: http://railstips.org/2009/2/2/bedazzle-your-bash-prompt-with-git-info
+[3]: http://techblog.floorplanner.com/2008/12/14/working-with-git-branches/
+[4]: http://www.intridea.com/2009/2/2/git-status-in-your-prompt
+[5]: http://www.cyberciti.biz/tips/howto-linux-unix-bash-shell-setup-prompt.html
