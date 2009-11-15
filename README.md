@@ -24,7 +24,7 @@ Edit your  `~/.profile` or `~/.bash_profile` and add the following to the top:
 
     export DOTBASH=~/.bash
     source $DOTBASH/main.sh
-    PS1="\u@\h:\w\[$txtcyn\]\$git_branch\[$txtrst\]\\$ "
+    PS1="\u@\h \w\[$txtcyn\]\$git_branch\[$txtrst\]\\$ "
 
 
 ## Configuring

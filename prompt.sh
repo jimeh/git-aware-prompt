@@ -20,4 +20,4 @@ function find_git_branch {
 PROMPT_COMMAND="find_git_branch; $PROMPT_COMMAND"
 
 # Default Git enabled prompt
-# PS1="\u@\h:\w\[$txtcyn\]\$git_branch\[$txtrst\]\\$ "
+# PS1="\u@\h \w\[$txtcyn\]\$git_branch\[$txtrst\]\\$ "
