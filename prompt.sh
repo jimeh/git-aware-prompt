@@ -20,4 +20,7 @@ function find_git_branch {
 PROMPT_COMMAND="find_git_branch; $PROMPT_COMMAND"
 
 # Default Git enabled prompt
-# PS1="\u@\h \w\[$txtcyn\]\$git_branch\[$txtrst\]\\$ "
+# export PS1="\u@\h \w\[$txtcyn\]\$git_branch\[$txtrst\]\\$ "
+
+# Default Git enabled root prompt (for use with "sudo -s")
+# export SUDO_PS1="\[$bakred\]\u@\h\[$txtrst\] \w\[$txtcyn\]\$git_branch\[$txtrst\]\\$ "
