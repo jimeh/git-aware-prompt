@@ -40,6 +40,8 @@ Basically, to have the current Git branch shown, simply add `$git_branch` to you
 
 ## License
 
+(MIT-like license, without the requirement to keep copyright notice in reproductions)
+
 Copyright (c) 2009 Jim Myhrberg
 
 Permission is hereby granted, free of charge, to any person obtaining
