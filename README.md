@@ -24,11 +24,11 @@ Edit your  `~/.profile` or `~/.bash_profile` and add the following to the top:
 
     export DOTBASH=~/.bash
     source $DOTBASH/main.sh
-    export PS1="\u@\h \w\[$txtcyn\]\$git_branch\[$txtrst\]\\$ "
+    export PS1="\u@\h \w\[$txtcyn\]\$git_branch\[$txtrst\]\$ "
 
 Optionally, if you want a nice pretty prompt when using `sudo -s`, also add this line:
 
-    export SUDO_PS1="\[$bakred\]\u@\h\[$txtrst\] \w\[$txtcyn\]\$git_branch\[$txtrst\]\\$ "
+    export SUDO_PS1="\[$bakred\]\u@\h\[$txtrst\] \w\$ "
 
 
 ## Configuring
