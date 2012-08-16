@@ -18,13 +18,14 @@ function find_git_branch {
 }
 function find_git_dirty {
     st=$(git status 2>/dev/null | tail -n 1)
-    if [[ $st != "nothing to commit (working directory clean)" ]]
+    if [[ $st == "" ]]; then
         git_dirty=''
-    then
+    elif [[ $st == "nothing to commit (working directory clean)" ]]; then
+        git_dirty=''
+    else
         git_dirty='*'
     fi
 }
-
 PROMPT_COMMAND="find_git_branch; find_git_dirty; $PROMPT_COMMAND"
 
 # Default Git enabled prompt with dirty state
