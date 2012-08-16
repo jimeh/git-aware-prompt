@@ -1,2 +1,2 @@
-source $DOTBASH/colors.sh
-source $DOTBASH/prompt.sh
+source $GITAWAREPROMPT/colors.sh
+source $GITAWAREPROMPT/prompt.sh
