@@ -17,14 +17,15 @@ If you `cd` to a Git working directory, you will see the current Git branch name
 ## Installation
 
 Clone the project to a `.bash` folder in your home directory:
-
-    git clone git://github.com/jimeh/git-aware-prompt.git ~/.bash
+    
+    mkdir ~/.bash
+    cd ~/.bash
+    git clone git://github.com/mikesten/git-aware-prompt.git
 
 Edit your  `~/.profile` or `~/.bash_profile` and add the following to the top:
 
-    export DOTBASH=~/.bash
-    source $DOTBASH/main.sh
-    export PS1="\u@\h \w\[$txtcyn\]\$git_branch\[$txtrst\]\$ "
+    export GITAWAREPROMPT=~/.bash/git-aware-prompt
+    source $GITAWAREPROMPT/main.sh
 
 Optionally, if you want a nice pretty prompt when using `sudo -s`, also add this line:
 
