@@ -1,20 +1,14 @@
 function find_git_branch {
-   local dir=. head
-   until [ "$dir" -ef / ]; do
-      if [ -f "$dir/.git/HEAD" ]; then
-         head=$(< "$dir/.git/HEAD")
-         if [[ $head == ref:\ refs/heads/* ]]; then
-            git_branch=" (${head#*/*/})"
-         elif [[ $head != '' ]]; then
-            git_branch=' (detached)'
-         else
-            git_branch=' (unknown)'
-         fi
-         return
-      fi
-      dir="../$dir"
-   done
-   git_branch=''
+   local dir=. head branch
+   if branch=$(git rev-parse --abbrev-ref HEAD 2> /dev/null)
+   then
+   	  if [[ -z "$branch" ]]; then
+   	     branch='detached'
+   	  fi
+   	  git_branch=" ($branch)"
+   else
+      git_branch=""
+   fi
 }
 function find_git_dirty {
     st=$(git status 2>/dev/null | tail -n 1)
