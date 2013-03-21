@@ -26,8 +26,7 @@ Edit your  `~/.profile` or `~/.bash_profile` and add the following to the top:
 
     export GITAWAREPROMPT=~/.bash/git-aware-prompt
     source $GITAWAREPROMPT/main.sh
-    export PS1="\u@\h \w\[$txtcyn\]\$git_branch\[$txtylw\]\$git_dirty\[$txtrst\]\$ "
-
+    export PS1="\u@\h \w \[$txtcyn\]\$git_branch\[$txtred\]\$git_dirty\[$txtrst\]\$ "
 
 Optionally, if you want a nice pretty prompt when using `sudo -s`, also add this line:
 
