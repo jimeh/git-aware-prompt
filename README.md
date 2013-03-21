@@ -20,7 +20,7 @@ Clone the project to a `.bash` folder in your home directory:
     
     mkdir ~/.bash
     cd ~/.bash
-    git clone git://github.com/mikesten/git-aware-prompt.git
+    git clone git://github.com/jimeh/git-aware-prompt.git
 
 Edit your  `~/.profile` or `~/.bash_profile` and add the following to the top:
 
