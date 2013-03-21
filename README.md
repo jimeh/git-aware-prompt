@@ -17,7 +17,7 @@ If you `cd` to a Git working directory, you will see the current Git branch name
 ## Installation
 
 Clone the project to a `.bash` folder in your home directory:
-    
+
     mkdir ~/.bash
     cd ~/.bash
     git clone git://github.com/jimeh/git-aware-prompt.git
