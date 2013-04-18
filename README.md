@@ -1,6 +1,6 @@
 # Git Aware Prompt
 
-Working with Git and it's great branching/merging features is amazing. Constantly switching branches can be confusing though as you have to run `git status` to see which branch you're currently on.
+Working with Git and its great branching/merging features is amazing. Constantly switching branches can be confusing though as you have to run `git status` to see which branch you're currently on.
 
 The solution to this is to have your terminal prompt display the current branch. There's a [number][1] [of][2] [articles][3] [available][4] online about how to achieve this.
 
