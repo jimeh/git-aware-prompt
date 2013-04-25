@@ -13,29 +13,11 @@ find_git_branch() {
 }
 
 find_git_dirty() {
-  if [[ -z "$git_branch" ]]
-  then
-    git_dirty=''
+  local status=$(git status --porcelain 2> /dev/null)
+  if [[ "$status" != "" ]]; then
+    git_dirty='*'
   else
-    # Based on: http://stackoverflow.com/a/2659808/170413
-    local err
-    if err=$(git diff-files --quiet 2>&1)
-    then
-      if git diff-index --quiet --cached HEAD
-      then
-        git_dirty=''
-      else
-        # Can't figure out different colors
-        git_dirty="^"
-      fi
-    elif [ -n "$err" ]
-    then
-      # Some error - most likely that it was run within $GIT_DIR
-      # Resolve repo root instead? `git rev-parse --git-dir` does not work, nor does the 'git root' alias trick
-      git_dirty=""
-    else
-      git_dirty="*"
-    fi
+    git_dirty=''
   fi
 }
 
