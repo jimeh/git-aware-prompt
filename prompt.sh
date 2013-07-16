@@ -1,24 +1,13 @@
-function settitle () {
-  if [ -z "$PC_SET" ]; then
-    export PREV_COMMAND=${@}
-    export PC_SET=1
-  fi
-}
-
-trap 'settitle "$BASH_COMMAND"' DEBUG
-
 find_git_branch() {
   # Based on: http://stackoverflow.com/a/13003854/170413
   local branch
-  if [[ "$PREV_COMMAND" =~ ^git || "$PREV_COMMAND" =~ ^cd || "$PREV_COMMAND" =~ ^PROMPT_COMMAND ]]; then
-    if branch=$(git rev-parse --abbrev-ref HEAD 2> /dev/null); then
-      if [[ "$branch" == "HEAD" ]]; then
-        branch='detached*'
-      fi
-      git_branch="($branch)"
-    else
-      git_branch=""
+  if branch=$(git rev-parse --abbrev-ref HEAD 2> /dev/null); then
+    if [[ "$branch" == "HEAD" ]]; then
+      branch='detached*'
     fi
+    git_branch="($branch)"
+  else
+    git_branch=""
   fi
 }
 
@@ -31,7 +20,7 @@ find_git_dirty() {
   fi
 }
 
-PROMPT_COMMAND='find_git_branch; find_git_dirty; '${PROMPT_COMMAND}' export PC_SET="";'
+#PROMPT_COMMAND='find_git_branch; find_git_dirty; '${PROMPT_COMMAND}
 
 # Default Git enabled prompt with dirty state
 # export PS1="\u@\h \w \[$txtcyn\]\$git_branch\[$txtred\]\$git_dirty\[$txtrst\]\$ "
