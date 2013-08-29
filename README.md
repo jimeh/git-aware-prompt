@@ -52,6 +52,13 @@ quotes. A set of color variables have also been set for you to use. For a list
 of available colors check `colors.sh`.
 
 
+## Usage Tips
+
+To view other user's tips, please check the
+[Usage Tips](https://github.com/jimeh/git-aware-prompt/wiki/Usage-Tips) wiki
+page. Or if you have tips of your own, feel free to add them :)
+
+
 ## License
 
 (MIT-like license, without the requirement to keep copyright notice in
