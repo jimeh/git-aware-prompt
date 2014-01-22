@@ -19,7 +19,7 @@ bldcyn='\e[1;36m' # Cyan
 bldwht='\e[1;37m' # White
 
 # Underline
-unkblk='\e[4;30m' # Black
+undblk='\e[4;30m' # Black
 undred='\e[4;31m' # Red
 undgrn='\e[4;32m' # Green
 undylw='\e[4;33m' # Yellow
