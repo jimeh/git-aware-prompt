@@ -10,6 +10,11 @@ about how to achieve this.
 
 I based this project mainly on Aaron Crane's [solution][1].
 
+[1]: http://aaroncrane.co.uk/2009/03/git_branch_prompt/
+[2]: http://railstips.org/2009/2/2/bedazzle-your-bash-prompt-with-git-info
+[3]: http://techblog.floorplanner.com/2008/12/14/working-with-git-branches/
+[4]: http://www.intridea.com/2009/2/2/git-status-in-your-prompt
+
 
 ## Overview
 
@@ -57,6 +62,8 @@ If you followed the above installation instructions, you've added the default
 prompt style already by defining the `PS1` variable. If you don't know how to
 customize your prompt, I recommend you check [this][5] how-to.
 
+[5]: http://www.cyberciti.biz/tips/howto-linux-unix-bash-shell-setup-prompt.html
+
 Basically, to have the current Git branch shown, simply add `$git_branch` to
 your `PS1` variable, and make sure the variable value is defined with double
 quotes. A set of color variables have also been set for you to use. For a list
@@ -94,8 +101,3 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 
 
-[1]: http://aaroncrane.co.uk/2009/03/git_branch_prompt/
-[2]: http://railstips.org/2009/2/2/bedazzle-your-bash-prompt-with-git-info
-[3]: http://techblog.floorplanner.com/2008/12/14/working-with-git-branches/
-[4]: http://www.intridea.com/2009/2/2/git-status-in-your-prompt
-[5]: http://www.cyberciti.biz/tips/howto-linux-unix-bash-shell-setup-prompt.html
