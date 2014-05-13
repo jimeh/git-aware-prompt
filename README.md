@@ -39,6 +39,7 @@ this line:
 
     export SUDO_PS1="\[$bakred\]\u@\h\[$txtrst\] \w\$ "
 
+The new prompt will take effect beginning in your next session. This usually means logging out completely. To enable it in your current session, you can simply run `source ~/.profile` or `source ~/.bash_profile` (whichever you edited above) in your terminal.
 
 ## Configuring
 
