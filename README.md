@@ -69,7 +69,7 @@ page. Or if you have tips of your own, feel free to add them :)
 (MIT-like license, without the requirement to keep copyright notice in
 reproductions)
 
-Copyright (c) 2009 Jim Myhrberg
+Copyright (c) 2014 Jim Myhrberg
 
 Permission is hereby granted, free of charge, to any person obtaining
 a copy of this software and associated documentation files (the
