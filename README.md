@@ -70,6 +70,17 @@ quotes. A set of color variables have also been set for you to use. For a list
 of available colors check `colors.sh`.
 
 
+## Updating
+
+Assuming you followed the default installation instructions and cloned this
+repo to `~/.bash/git-aware-prompt`:
+
+```bash
+cd ~/.bash/git-aware-prompt
+git pull
+```
+
+
 ## Usage Tips
 
 To view other user's tips, please check the
