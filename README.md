@@ -24,20 +24,26 @@ directory, your prompt works like normal.
 
 Clone the project to a `.bash` folder in your home directory:
 
-    mkdir ~/.bash
-    cd ~/.bash
-    git clone git://github.com/jimeh/git-aware-prompt.git
+```bash
+mkdir ~/.bash
+cd ~/.bash
+git clone git://github.com/jimeh/git-aware-prompt.git
+```
 
 Edit your  `~/.profile` or `~/.bash_profile` and add the following to the top:
 
-    export GITAWAREPROMPT=~/.bash/git-aware-prompt
-    source $GITAWAREPROMPT/main.sh
-    export PS1="\u@\h \w \[$txtcyn\]\$git_branch\[$txtred\]\$git_dirty\[$txtrst\]\$ "
+```bash
+export GITAWAREPROMPT=~/.bash/git-aware-prompt
+source $GITAWAREPROMPT/main.sh
+export PS1="\u@\h \w \[$txtcyn\]\$git_branch\[$txtred\]\$git_dirty\[$txtrst\]\$ "
+```
 
 Optionally, if you want a nice pretty prompt when using `sudo -s`, also add
 this line:
 
-    export SUDO_PS1="\[$bakred\]\u@\h\[$txtrst\] \w\$ "
+```bash
+export SUDO_PS1="\[$bakred\]\u@\h\[$txtrst\] \w\$ "
+```
 
 The new prompt will take effect beginning in your next session. This usually
 means logging out completely. To enable it in your current session, you can
