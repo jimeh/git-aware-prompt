@@ -10,6 +10,11 @@ about how to achieve this.
 
 I based this project mainly on Aaron Crane's [solution][1].
 
+[1]: http://aaroncrane.co.uk/2009/03/git_branch_prompt/
+[2]: http://railstips.org/2009/2/2/bedazzle-your-bash-prompt-with-git-info
+[3]: http://techblog.floorplanner.com/2008/12/14/working-with-git-branches/
+[4]: http://www.intridea.com/2009/2/2/git-status-in-your-prompt
+
 
 ## Overview
 
@@ -24,20 +29,31 @@ directory, your prompt works like normal.
 
 Clone the project to a `.bash` folder in your home directory:
 
-    mkdir ~/.bash
-    cd ~/.bash
-    git clone git://github.com/jimeh/git-aware-prompt.git
+```bash
+mkdir ~/.bash
+cd ~/.bash
+git clone git://github.com/jimeh/git-aware-prompt.git
+```
 
 Edit your  `~/.profile` or `~/.bash_profile` and add the following to the top:
 
-    export GITAWAREPROMPT=~/.bash/git-aware-prompt
-    source $GITAWAREPROMPT/main.sh
-    export PS1="\u@\h \w \[$txtcyn\]\`__git_ps1 \"(%s)\"\`\[$txtred\]\$git_dirty\[$txtrst\]\$ "
+```bash
+export GITAWAREPROMPT=~/.bash/git-aware-prompt
+source $GITAWAREPROMPT/main.sh
+export PS1="\u@\h \w \[$txtcyn\]\`__git_ps1 \"(%s)\"\`\[$txtred\]\$git_dirty\[$txtrst\]\$ "
+```
 
 Optionally, if you want a nice pretty prompt when using `sudo -s`, also add
 this line:
 
-    export SUDO_PS1="\[$bakred\]\u@\h\[$txtrst\] \w\$ "
+```bash
+export SUDO_PS1="\[$bakred\]\u@\h\[$txtrst\] \w\$ "
+```
+
+The new prompt will take effect beginning in your next session. This usually
+means logging out completely. To enable it in your current session, you can
+simply run `source ~/.profile` or `source ~/.bash_profile` (whichever you
+edited above) in your terminal.
 
 
 ## Configuring
@@ -46,10 +62,23 @@ If you followed the above installation instructions, you've added the default
 prompt style already by defining the `PS1` variable. If you don't know how to
 customize your prompt, I recommend you check [this][5] how-to.
 
+[5]: http://www.cyberciti.biz/tips/howto-linux-unix-bash-shell-setup-prompt.html
+
 Basically, to have the current Git branch shown, simply add `$git_branch` to
 your `PS1` variable, and make sure the variable value is defined with double
 quotes. A set of color variables have also been set for you to use. For a list
 of available colors check `colors.sh`.
+
+
+## Updating
+
+Assuming you followed the default installation instructions and cloned this
+repo to `~/.bash/git-aware-prompt`:
+
+```bash
+cd ~/.bash/git-aware-prompt
+git pull
+```
 
 
 ## Usage Tips
@@ -61,30 +90,18 @@ page. Or if you have tips of your own, feel free to add them :)
 
 ## License
 
-(MIT-like license, without the requirement to keep copyright notice in
-reproductions)
+```
+        DO WHAT THE FUCK YOU WANT TO PUBLIC LICENSE
+                    Version 2, December 2004
 
-Copyright (c) 2009 Jim Myhrberg
+ Copyright (C) 2014 Jim Myhrberg
 
-Permission is hereby granted, free of charge, to any person obtaining
-a copy of this software and associated documentation files (the
-'Software'), to deal in the Software without restriction, including
-without limitation the rights to use, copy, modify, merge, publish,
-distribute, sublicense, and/or sell copies of the Software, and to
-permit persons to whom the Software is furnished to do so.
+ Everyone is permitted to copy and distribute verbatim or modified
+ copies of this license document, and changing it is allowed as long
+ as the name is changed.
 
-THE SOFTWARE IS PROVIDED 'AS IS', WITHOUT WARRANTY OF ANY KIND,
-EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
-IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
-CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
-TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
-SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+            DO WHAT THE FUCK YOU WANT TO PUBLIC LICENSE
+   TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND MODIFICATION
 
-
-
-[1]: http://aaroncrane.co.uk/2009/03/git_branch_prompt/
-[2]: http://railstips.org/2009/2/2/bedazzle-your-bash-prompt-with-git-info
-[3]: http://techblog.floorplanner.com/2008/12/14/working-with-git-branches/
-[4]: http://www.intridea.com/2009/2/2/git-status-in-your-prompt
-[5]: http://www.cyberciti.biz/tips/howto-linux-unix-bash-shell-setup-prompt.html
+  0. You just DO WHAT THE FUCK YOU WANT TO.
+```
