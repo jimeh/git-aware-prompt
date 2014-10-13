@@ -1,3 +1,7 @@
+# Users can set the dirtysymb env var in their .bash_profile, etc,
+# or they can leave it unset and it will default to the '*'.
+export dirtysymb=${dirtysymb:="*"};
+
 find_git_branch() {
   # Based on: http://stackoverflow.com/a/13003854/170413
   local branch
@@ -14,7 +18,7 @@ find_git_branch() {
 find_git_dirty() {
   local status=$(git status --porcelain 2> /dev/null)
   if [[ "$status" != "" ]]; then
-    git_dirty='*'
+    git_dirty=$dirtysymb
   else
     git_dirty=''
   fi
