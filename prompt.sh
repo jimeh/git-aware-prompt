@@ -12,7 +12,7 @@ find_git_branch() {
 }
 
 find_git_dirty() {
-  local status=$(git status --porcelain 2> /dev/null)
+  local status=$(git status --porcelain 2> /dev/null | grep -v '^??')
   if [[ "$status" != "" ]]; then
     git_dirty='*'
   else
