@@ -33,8 +33,8 @@ find_git_ahead_behind() {
         git_ahead_behind=''
       else
         git_ahead_behind=""
-        [[ "$ahead"  != 0 ]] && git_ahead_behind="$git_ahead_behind+$ahead"
-        [[ "$behind" != 0 ]] && git_ahead_behind="$git_ahead_behind-$behind"
+        [[ "$ahead"  != 0 ]] && git_ahead_behind="$git_ahead_behind>$ahead"
+        [[ "$behind" != 0 ]] && git_ahead_behind="$git_ahead_behind<$behind"
       fi
     fi
   fi
