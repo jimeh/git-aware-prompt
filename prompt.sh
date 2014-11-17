@@ -18,6 +18,9 @@ find_git_dirty() {
   else
     git_dirty=''
   fi
+  if branch=$(git rev-parse --abbrev-ref HEAD 2> /dev/null); then
+    git_dirty="$git_dirty`cursenorm`$ "
+  fi
 }
 
 find_git_ahead_behind() {
