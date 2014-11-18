@@ -39,8 +39,10 @@ find_git_ahead_behind() {
         # BUG: Usually when including colors in a prompt, we will wrap them in \[...\] to indicate that they take up no space.  But we cannot do that here; the escaping is ignored.
         # TODO: The solution is to put all the colors in the prompt, and assign lots of fine-grained variables here.
         git_ahead_behind="`cursebold`"
-        [[ "$ahead"  != 0 ]] && git_ahead_behind="$git_ahead_behind`cursegreen;cursebold`>$ahead"
-        [[ "$behind" != 0 ]] && git_ahead_behind="$git_ahead_behind`cursered;cursebold`<$behind"
+        #[[ "$ahead"  != 0 ]] && git_ahead_behind="$git_ahead_behind`cursenorm`>`cursegreen;cursebold`$ahead"
+        #[[ "$behind" != 0 ]] && git_ahead_behind="$git_ahead_behind`cursenorm`<`cursered;cursebold`$behind"
+        [[ "$ahead"  != 0 ]] && git_ahead_behind="$git_ahead_behind`cursegreen;cursebold`+"
+        [[ "$behind" != 0 ]] && git_ahead_behind="$git_ahead_behind`cursered;cursebold`-"
         git_ahead_behind="$git_ahead_behind`cursebold`"
       fi
     fi
