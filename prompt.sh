@@ -19,7 +19,8 @@ find_git_dirty() {
     git_dirty=''
   fi
   if branch=$(git rev-parse --abbrev-ref HEAD 2> /dev/null); then
-    git_dirty="$git_dirty`cursenorm`$ "
+    #git_dirty="$git_dirty`cursenorm`$ "
+    git_dirty="$git_dirty "
   fi
 }
 
