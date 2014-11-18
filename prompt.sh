@@ -31,20 +31,12 @@ find_git_ahead_behind() {
     # If the branch is not tracking a specific remote branch, then assume we are tracking origin/[this_branch_name]
     [[ -z "$upstream_branch" ]] && upstream_branch="origin/$local_branch"
     if [[ -n "$upstream_branch" ]]; then
-      local  ahead=$(git rev-list --left-right ${local_branch}...${upstream_branch} 2> /dev/null | grep -c '^<')
-      local behind=$(git rev-list --left-right ${local_branch}...${upstream_branch} 2> /dev/null | grep -c '^>')
-      if [[ "$ahead" = 0 ]] && [[ "$behind" = 0 ]]; then
-        git_ahead_behind=''
-      else
-        # BUG: Usually when including colors in a prompt, we will wrap them in \[...\] to indicate that they take up no space.  But we cannot do that here; the escaping is ignored.
-        # TODO: The solution is to put all the colors in the prompt, and assign lots of fine-grained variables here.
-        git_ahead_behind="`cursebold`"
-        #[[ "$ahead"  != 0 ]] && git_ahead_behind="$git_ahead_behind`cursenorm`>`cursegreen;cursebold`$ahead"
-        #[[ "$behind" != 0 ]] && git_ahead_behind="$git_ahead_behind`cursenorm`<`cursered;cursebold`$behind"
-        [[ "$ahead"  != 0 ]] && git_ahead_behind="$git_ahead_behind`cursegreen;cursebold`+"
-        [[ "$behind" != 0 ]] && git_ahead_behind="$git_ahead_behind`cursered;cursebold`-"
-        git_ahead_behind="$git_ahead_behind`cursebold`"
-      fi
+      git_ahead_count=$(git rev-list --left-right ${local_branch}...${upstream_branch} 2> /dev/null | grep -c '^<')
+      git_behind_count=$(git rev-list --left-right ${local_branch}...${upstream_branch} 2> /dev/null | grep -c '^>')
+      git_ahead_mark=''
+      git_behind_mark=''
+      [[ "$git_ahead_count"  != 0 ]] &&  git_ahead_mark='+'
+      [[ "$git_behind_count" != 0 ]] && git_behind_mark='-'
     fi
   fi
 }
