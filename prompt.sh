@@ -26,6 +26,10 @@ find_git_dirty() {
 
 find_git_ahead_behind() {
   local local_branch=$(git rev-parse --abbrev-ref HEAD 2> /dev/null)
+  git_ahead_count=''
+  git_ahead_mark=''
+  git_behind_count=''
+  git_behind_mark=''
   if [[ -n "$local_branch" ]]; then
     local upstream_branch=$(git rev-parse --abbrev-ref "@{upstream}" 2> /dev/null)
     # If the branch is not tracking a specific remote branch, then assume we are tracking origin/[this_branch_name]
@@ -35,13 +39,11 @@ find_git_ahead_behind() {
       git_behind_count=$(git rev-list --left-right ${local_branch}...${upstream_branch} 2> /dev/null | grep -c '^>')
       if [[ "$git_ahead_count" = 0 ]]; then
         git_ahead_count=''
-        git_ahead_mark=''
       else
         git_ahead_mark='+'
       fi
       if [[ "$git_behind_count" = 0 ]]; then
         git_behind_count=''
-        git_behind_mark=''
       else
         git_behind_mark='-'
       fi
