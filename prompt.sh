@@ -3,7 +3,7 @@ find_git_branch() {
   local branch
   if branch=$(git rev-parse --abbrev-ref HEAD 2> /dev/null); then
     if [[ "$branch" == "HEAD" ]]; then
-      branch='detached*'
+      branch='<detached>'
     fi
     git_branch="[$branch]"
   else
@@ -30,7 +30,7 @@ find_git_ahead_behind() {
   git_ahead_mark=''
   git_behind_count=''
   git_behind_mark=''
-  if [[ -n "$local_branch" ]]; then
+  if [[ -n "$local_branch" ]] && [[ "$git_branch" != "[<detached>]" ]]; then
     local upstream_branch=$(git rev-parse --abbrev-ref "@{upstream}" 2> /dev/null)
     # If the branch is not tracking a specific remote branch, then assume we are tracking origin/[this_branch_name]
     [[ -z "$upstream_branch" ]] && upstream_branch="origin/$local_branch"
