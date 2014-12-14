@@ -56,10 +56,10 @@ find_git_ahead_behind() {
 PROMPT_COMMAND="find_git_branch; find_git_dirty; find_git_ahead_behind; $PROMPT_COMMAND"
 
 # Default Git enabled prompt with dirty state
-# export PS1="\u@\h \w \[$txtcyn\]\$git_branch\[$txtred\]\$git_dirty\$git_ahead_behind\[$txtrst\]\$ "
+# export PS1="\u@\h \w \[$txtcyn\]\$git_branch\[$txtred\]\$git_dirty\$git_ahead_mark\$git_behind_mark\[$txtrst\]\$ "
 
 # Another variant:
-# export PS1="\[$bldgrn\]\u@\h\[$txtrst\] \w \[$bldylw\]\$git_branch\[$txtcyn\]\$git_dirty\$git_ahead_behind\[$txtrst\]\$ "
+# export PS1="\[$bldgrn\]\u@\h\[$txtrst\] \w \[$bldylw\]\$git_branch\[$txtcyn\]\$git_dirty\[$txtgreen\]\$git_ahead_mark\$git_ahead_count\[$txtred\]\$git_behind_mark\$git_behind_count\[$txtrst\]\$ "
 
 # Default Git enabled root prompt (for use with "sudo -s")
 # export SUDO_PS1="\[$bakred\]\u@\h\[$txtrst\] \w\$ "
