@@ -7,23 +7,24 @@ find_git_branch() {
       # Could show the hash here
       #branch=$(git rev-parse --short HEAD 2>/dev/null)
     fi
-    git_branch="[$branch]"
+    git_branch=" [$branch]"
   else
     git_branch=""
   fi
 }
 
 find_git_dirty() {
-  local status=$(git status --porcelain 2> /dev/null | grep -v '^??')
-  if [[ "$status" != "" ]]; then
+  # I added the grep -v because I don't mind the odd file hanging around.  Some users may be more strict about this!
+  local status_count=$(git status --porcelain 2> /dev/null | grep -v '^??' | wc -l)
+  if [[ "$status_count" != 0 ]]; then
     git_dirty='*'
+    git_dirty_count="$status_count"
   else
     git_dirty=''
+    git_dirty_count=''
   fi
-  if branch=$(git rev-parse --abbrev-ref HEAD 2> /dev/null); then
-    #git_dirty="$git_dirty`cursenorm`$ "
-    git_dirty="$git_dirty "
-  fi
+  # TODO: For consistency with ahead/behind variables, git_dirty could be renamed git_dirty_mark
+  #       and s/mark/marker/ why not?
 }
 
 find_git_ahead_behind() {
@@ -56,10 +57,10 @@ find_git_ahead_behind() {
 PROMPT_COMMAND="find_git_branch; find_git_dirty; find_git_ahead_behind; $PROMPT_COMMAND"
 
 # Default Git enabled prompt with dirty state
-# export PS1="\u@\h \w \[$txtcyn\]\$git_branch\[$txtred\]\$git_dirty\$git_ahead_mark\$git_behind_mark\[$txtrst\]\$ "
+# export PS1="\u@\h \w\[$txtcyn\]\$git_branch\[$txtred\]\$git_dirty\$git_ahead_mark\$git_behind_mark\[$txtrst\] \$ "
 
-# Another variant:
-# export PS1="\[$bldgrn\]\u@\h\[$txtrst\] \w \[$bldylw\]\$git_branch\[$txtcyn\]\$git_dirty\[$txtgreen\]\$git_ahead_mark\$git_ahead_count\[$txtred\]\$git_behind_mark\$git_behind_count\[$txtrst\]\$ "
+# Another variant, which displays counts after each mark:
+# export PS1="\[$bldgrn\]\u@\h\[$txtrst\] \w\[$bldylw\]\$git_branch\[$txtcyn\]\$git_dirty\$git_dirty_count\[$txtgreen\]\$git_ahead_mark\$git_ahead_count\[$txtred\]\$git_behind_mark\$git_behind_count\[$txtrst\] \$ "
 
 # Default Git enabled root prompt (for use with "sudo -s")
 # export SUDO_PS1="\[$bakred\]\u@\h\[$txtrst\] \w\$ "
