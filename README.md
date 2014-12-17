@@ -22,7 +22,7 @@ If you `cd` to a Git working directory, you will see the current Git branch
 name displayed in your terminal prompt. When you're not in a Git working
 directory, your prompt works like normal.
 
-![Git Branch in Prompt](https://raw.github.com/jimeh/git-aware-prompt/master/preview.png)
+![Git Branch in Prompt](https://raw.github.com/joeytwiddle/git-aware-prompt/master/preview.png)
 
 
 ## Installation
@@ -32,7 +32,7 @@ Clone the project to a `.bash` folder in your home directory:
 ```bash
 mkdir ~/.bash
 cd ~/.bash
-git clone git://github.com/jimeh/git-aware-prompt.git
+git clone git://github.com/joeytwiddle/git-aware-prompt.git
 ```
 
 Edit your  `~/.profile` or `~/.bash_profile` and add the following to the top:
