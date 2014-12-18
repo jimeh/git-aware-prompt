@@ -35,6 +35,8 @@ find_git_ahead_behind() {
   git_behind_mark=''
   if [[ -n "$local_branch" ]] && [[ "$local_branch" != "HEAD" ]]; then
     local upstream_branch=$(git rev-parse --abbrev-ref "@{upstream}" 2> /dev/null)
+    # If we get back what we put in, then that means the upstream branch was not found.  (This was observed on git 1.7.10.4 on Ubuntu)
+    [[ "$upstream_branch" = "@{upstream}" ]] && upstream_branch=''
     # If the branch is not tracking a specific remote branch, then assume we are tracking origin/[this_branch_name]
     [[ -z "$upstream_branch" ]] && upstream_branch="origin/$local_branch"
     if [[ -n "$upstream_branch" ]]; then
