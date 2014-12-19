@@ -26,11 +26,11 @@ directory, your prompt works like normal.
 
 This fork of `git-aware-prompt` can show how far your local branch is *ahead* or *behind* the original.
 
-> `*` indicates that the branch has dirty files, changed but uncommitted.  (This feature was in the original but no longer appears for untracked files.)
+> `*2` indicates that the branch is dirty, with 2 files modified but uncommitted.  (This feature was in the original but no longer appears for untracked files.)
 
-> `+1` indicates that the local branch has 1 commit which has not yet been pushed to the upstream/remote branch.
+> `>1` indicates that the local branch has 1 commit which has not yet been pushed to the upstream/remote branch.
 
-> `-3` indicates that the local branch is 3 commits behind the upstream/remote branch, and could be updated with `git merge origin/master`.
+> `<3` indicates that the local branch is 3 commits behind the upstream/remote branch, and could be updated with `git merge origin/master`.
 
 The symbols (or "marks") can be changed by editing the `prompt.sh` file directly.  The numbers or the marks can be omitted by removing the `_count` or `_mark` variables from the `PS1` prompt below.
 
@@ -50,7 +50,7 @@ Edit your  `~/.profile` or `~/.bash_profile` and add the following to the top:
 ```bash
 export GITAWAREPROMPT=~/.bash/git-aware-prompt
 source $GITAWAREPROMPT/main.sh
-export PS1="\u@\h \w\[$txtcyn\]\$git_branch\[$txtylw\]\$git_dirty\[$txtgrn\]\$git_ahead_mark\$git_ahead_count\[$txtred\]\$git_behind_mark\$git_behind_count\[$txtrst\] \$ "
+export PS1="\u@\h \w\[$txtcyn\]\$git_branch\[$txtylw\]\$git_dirty\$git_dirty_count\[$txtgrn\]\$git_ahead_mark\$git_ahead_count\[$txtred\]\$git_behind_mark\$git_behind_count\[$txtrst\] \$ "
 ```
 
 Optionally, if you want a nice pretty prompt when using `sudo -s`, also add
