@@ -45,12 +45,12 @@ find_git_ahead_behind() {
       if [[ "$git_ahead_count" = 0 ]]; then
         git_ahead_count=''
       else
-        git_ahead_mark='+'
+        git_ahead_mark='>'
       fi
       if [[ "$git_behind_count" = 0 ]]; then
         git_behind_count=''
       else
-        git_behind_mark='-'
+        git_behind_mark='<'
       fi
     fi
   fi
