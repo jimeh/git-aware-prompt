@@ -22,17 +22,17 @@ If you `cd` to a Git working directory, you will see the current Git branch
 name displayed in your terminal prompt. When you're not in a Git working
 directory, your prompt works like normal.
 
+This fork also shows you how far your local branch is **ahead** or **behind** the repository's branch.
+
 ![Git Branch in Prompt](https://raw.github.com/joeytwiddle/git-aware-prompt/master/preview.png)
 
-This fork of `git-aware-prompt` can show how far your local branch is *ahead* or *behind* the original.
+> `<3` indicates that the local branch is 3 commits behind the upstream/remote branch, and could be updated.
 
-> `*2` indicates that the branch is dirty, with 2 files modified but uncommitted.  (This feature was in the original but no longer appears for untracked files.)
+> `*2` indicates that the branch is now dirty, with 2 files modified but not committed.
 
-> `>1` indicates that the local branch has 1 commit which has not yet been pushed to the upstream/remote branch.
+> `>1` indicates that the local branch has 1 commit which has not yet been pushed.
 
-> `<3` indicates that the local branch is 3 commits behind the upstream/remote branch, and could be updated with `git merge origin/master`.
-
-The symbols (or "marks") can be changed by editing the `prompt.sh` file directly.  The numbers or the marks can be omitted by removing the `_count` or `_mark` variables from the `PS1` prompt below.
+The symbols (or "markers") can be changed by editing the `prompt.sh` file directly.  The numbers or the markers can be omitted by removing the `_count` or `_mark` variables from the `PS1` prompt below.
 
 
 ## Installation
