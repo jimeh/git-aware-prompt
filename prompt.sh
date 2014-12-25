@@ -14,8 +14,39 @@ find_git_branch() {
 }
 
 find_git_dirty() {
+  # The following will abort the `git status` process if it is taking too long to complete.
+  # This can happen on machines with slow disc access.
+  # Hopefully each attempt will pull additional data into the FS cache, so on a later attempt it will complete in time.
+  local gs_done_file=/tmp/done_gs.$USER
+  'rm' -f "$gs_done_file"
+  ( git status --porcelain 2> /dev/null > /tmp/porc ; touch "$gs_done_file" ) &
+  local gs_shell_pid="$!"
+  (
+    # Keep checking if the `git status` has completed; and if it has, abort.
+    for X in 1 7
+    do
+      sleep 0.2
+      [[ -f "$gs_done_file" ]] && exit
+    done
+    # But if the timeout is reached, kill the `git status`.
+    # Killing the parent (...)& shell is not enough; we also need to kill the child `git` process running inside it.
+    # We do that *before* killing the parent, because we cannot do it afterwards.  (An orphaned process gets PPID=1.)
+    pkill -P "$gs_shell_pid"
+    kill "$gs_shell_pid"
+    # Check it worked with jsh:
+    #findjob git
+  ) &
+  wait
+  if [[ ! -f "$gs_done_file" ]]
+  then
+    git_dirty='#'
+    git_dirty_count=''
+    return
+  fi
+  local status_count=$(cat /tmp/porc | grep -v '^??' | wc -l)
+
   # I added the grep -v because I don't mind the odd file hanging around.  Some users may be more strict about this!
-  local status_count=$(git status --porcelain 2> /dev/null | grep -v '^??' | wc -l)
+  #local status_count=$(git status --porcelain 2> /dev/null | grep -v '^??' | wc -l)
   if [[ "$status_count" != 0 ]]; then
     git_dirty='*'
     git_dirty_count="$status_count"
