@@ -17,6 +17,12 @@ find_git_dirty() {
   # The following will abort the `git status` process if it is taking too long to complete.
   # This can happen on machines with slow disc access.
   # Hopefully each attempt will pull additional data into the FS cache, so on a later attempt it will complete in time.
+
+  # This is needed to stop zsh from spamming four job info messages!
+  # DONE: Only run this for zsh *and* restore default value afterwards.  (Notice we have two return points, but we could change that.)
+  # Note: If we *forget* to setopt again, we get some rather unpleasant behaviour: If I open an editor in the background, e.g. using jsh's `et` then hitting Ctrl-C in the terminal closes the editor!
+  [[ -n "$ZSH_NAME" ]] && unsetopt MONITOR
+
   local gs_done_file=/tmp/done_gs.$USER
   'rm' -f "$gs_done_file"
   ( git status --porcelain 2> /dev/null > /tmp/porc ; touch "$gs_done_file" ) &
@@ -41,6 +47,7 @@ find_git_dirty() {
   then
     git_dirty='#'
     git_dirty_count=''
+    [[ -n "$ZSH_NAME" ]] && setopt MONITOR
     return
   fi
   local status_count=$(cat /tmp/porc | grep -v '^??' | wc -l)
@@ -56,6 +63,8 @@ find_git_dirty() {
   fi
   # TODO: For consistency with ahead/behind variables, git_dirty could be renamed git_dirty_mark
   #       and s/mark/marker/ why not?
+
+  [[ -n "$ZSH_NAME" ]] && setopt MONITOR
 }
 
 find_git_ahead_behind() {
