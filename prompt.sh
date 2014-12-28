@@ -17,11 +17,17 @@ find_git_dirty() {
   # The following will abort the `git status` process if it is taking too long to complete.
   # This can happen on machines with slow disc access.
   # Hopefully each attempt will pull additional data into the FS cache, so on a later attempt it will complete in time.
+  # On a large folder, this can take a lot of attempts.
+  # In fact I have seen it fail!  (Subsequent attempts fail to expand the cache significantly, although running `git status` does.)
+  # To prevent that, we may want the process to *continue* in the background.  (In which case we might also want to ensure that multiple attempts do not run in parallel, although that could be optional.)  In the meantime, of course, the user could run `git status` manually.
 
   # This is needed to stop zsh from spamming four job info messages!
   # DONE: Only run this for zsh *and* restore default value afterwards.  (Notice we have two return points, but we could change that.)
   # Note: If we *forget* to setopt again, we get some rather unpleasant behaviour: If I open an editor in the background, e.g. using jsh's `et` then hitting Ctrl-C in the terminal closes the editor!
   [[ -n "$ZSH_NAME" ]] && unsetopt MONITOR
+
+  # BUG: I'm afraid it's still a bit broken in zsh.  Try backgrounding a process, and the next prompt will not appear!
+  #      Oh of course.  Because the `wait` is getting applied to the process which the user started.
 
   local gs_done_file=/tmp/done_gs.$USER
   'rm' -f "$gs_done_file"
