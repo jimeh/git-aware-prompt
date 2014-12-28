@@ -26,29 +26,29 @@ find_git_dirty() {
   # Note: If we *forget* to setopt again, we get some rather unpleasant behaviour: If I open an editor in the background, e.g. using jsh's `et` then hitting Ctrl-C in the terminal closes the editor!
   [[ -n "$ZSH_NAME" ]] && unsetopt MONITOR
 
-  # BUG: I'm afraid it's still a bit broken in zsh.  Try backgrounding a process, and the next prompt will not appear!
-  #      Oh of course.  Because the `wait` is getting applied to the process which the user started.
-
   local gs_done_file=/tmp/done_gs.$USER
-  'rm' -f "$gs_done_file"
-  ( git status --porcelain 2> /dev/null > /tmp/porc ; touch "$gs_done_file" ) &
-  local gs_shell_pid="$!"
+  # We need to start a subshell here, otherwise the `wait` below will be applied to jobs which the user has backgrounded (observed in zsh).  We only want it to apply to the two parallel jobs we start here.
   (
-    # Keep checking if the `git status` has completed; and if it has, abort.
-    for X in 1 7
-    do
-      sleep 0.2
-      [[ -f "$gs_done_file" ]] && exit
-    done
-    # But if the timeout is reached, kill the `git status`.
-    # Killing the parent (...)& shell is not enough; we also need to kill the child `git` process running inside it.
-    # We do that *before* killing the parent, because we cannot do it afterwards.  (An orphaned process gets PPID=1.)
-    pkill -P "$gs_shell_pid"
-    kill "$gs_shell_pid"
-    # Check it worked with jsh:
-    #findjob git
-  ) &
-  wait
+    'rm' -f "$gs_done_file"
+    ( git status --porcelain 2> /dev/null > /tmp/porc ; touch "$gs_done_file" ) &
+    local gs_shell_pid="$!"
+    (
+      # Keep checking if the `git status` has completed; and if it has, abort.
+      for X in 1 7
+      do
+        sleep 0.2
+        [[ -f "$gs_done_file" ]] && exit
+      done
+      # But if the timeout is reached, kill the `git status`.
+      # Killing the parent (...)& shell is not enough; we also need to kill the child `git` process running inside it.
+      # We do that *before* killing the parent, because we cannot do it afterwards.  (An orphaned process gets PPID=1.)
+      pkill -P "$gs_shell_pid"
+      kill "$gs_shell_pid"
+      # Check it worked with jsh:
+      #findjob git
+    ) &
+    wait
+  )
   if [[ ! -f "$gs_done_file" ]]
   then
     git_dirty='#'
