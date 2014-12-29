@@ -14,6 +14,14 @@ find_git_branch() {
 }
 
 find_git_dirty() {
+  # Optimization.  Requires that find_git_branch always runs before find_git_dirty in PROMPT_COMMAND or zsh's precmd hook.
+  if [[ -z "$git_branch" ]]
+  then
+    git_dirty=''
+    git_dirty_count=''
+    return
+  fi
+
   # The following will abort the `git status` process if it is taking too long to complete.
   # This can happen on machines with slow disc access.
   # Hopefully each attempt will pull additional data into the FS cache, so on a later attempt it will complete in time.
@@ -58,10 +66,10 @@ find_git_dirty() {
     [[ -n "$ZSH_NAME" ]] && setopt MONITOR
     return
   fi
-  local status_count=$(cat /tmp/porc | grep -v '^??' | wc -l)
+  local status_count=$(cat /tmp/porc | grep -c -v '^??')
 
   # I added the grep -v because I don't mind the odd file hanging around.  Some users may be more strict about this!
-  #local status_count=$(git status --porcelain 2> /dev/null | grep -v '^??' | wc -l)
+  #local status_count=$(git status --porcelain 2> /dev/null | grep -c -v '^??')
   if [[ "$status_count" != 0 ]]; then
     git_dirty='*'
     git_dirty_count="$status_count"
