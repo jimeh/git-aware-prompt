@@ -29,13 +29,13 @@ find_git_dirty() {
   # In fact I have seen it fail!  (Subsequent attempts fail to expand the cache significantly, although running `git status` does.)  But since then I have increased the loops from 2 to 7.
   # To prevent that, we may want the process to *continue* in the background.  (In which case we might also want to ensure that multiple attempts do not run in parallel, although that could be optional.)  In the meantime, of course, the user could run `git status` manually.
 
-  local gs_done_file=/tmp/done_gs.$USER
+  local gs_done_file=/tmp/done_gs.$USER.$$
+  local gs_porc_file=/tmp/gs_porc.$USER.$$
   # We need to start a subshell here, otherwise the `wait` below will be applied to jobs which the user has backgrounded (observed in zsh).  We only want it to apply to the two parallel jobs we start here.
   (
     # This is needed to stop zsh from spamming four job info messages!
     [[ -n "$ZSH_NAME" ]] && unsetopt MONITOR
-    'rm' -f "$gs_done_file"
-    ( git status --porcelain 2> /dev/null > /tmp/porc ; touch "$gs_done_file" ) &
+    ( git status --porcelain 2> /dev/null > "$gs_porc_file" ; touch "$gs_done_file" ) &
     local gs_shell_pid="$!"
     (
       # Keep checking if the `git status` has completed; and if it has, abort.
@@ -62,7 +62,10 @@ find_git_dirty() {
     git_dirty_count=''
     return
   fi
-  local status_count=$(cat /tmp/porc | grep -c -v '^??')
+  'rm' -f "$gs_done_file"
+
+  local status_count=$(cat "$gs_porc_file" | grep -c -v '^??')
+  'rm' -f "$gs_porc_file"
 
   # I added the grep -v because I don't mind the odd file hanging around.  Some users may be more strict about this!
   #local status_count=$(git status --porcelain 2> /dev/null | grep -c -v '^??')
