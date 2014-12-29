@@ -29,14 +29,11 @@ find_git_dirty() {
   # In fact I have seen it fail!  (Subsequent attempts fail to expand the cache significantly, although running `git status` does.)  But since then I have increased the loops from 2 to 7.
   # To prevent that, we may want the process to *continue* in the background.  (In which case we might also want to ensure that multiple attempts do not run in parallel, although that could be optional.)  In the meantime, of course, the user could run `git status` manually.
 
-  # This is needed to stop zsh from spamming four job info messages!
-  # DONE: Only run this for zsh *and* restore default value afterwards.  (Notice we have two return points, but we could change that.)
-  # Note: If we *forget* to setopt again, we get some rather unpleasant behaviour: If I open an editor in the background, e.g. using jsh's `et` then hitting Ctrl-C in the terminal closes the editor!
-  [[ -n "$ZSH_NAME" ]] && unsetopt MONITOR
-
   local gs_done_file=/tmp/done_gs.$USER
   # We need to start a subshell here, otherwise the `wait` below will be applied to jobs which the user has backgrounded (observed in zsh).  We only want it to apply to the two parallel jobs we start here.
   (
+    # This is needed to stop zsh from spamming four job info messages!
+    [[ -n "$ZSH_NAME" ]] && unsetopt MONITOR
     'rm' -f "$gs_done_file"
     ( git status --porcelain 2> /dev/null > /tmp/porc ; touch "$gs_done_file" ) &
     local gs_shell_pid="$!"
@@ -63,7 +60,6 @@ find_git_dirty() {
   then
     git_dirty='#'
     git_dirty_count=''
-    [[ -n "$ZSH_NAME" ]] && setopt MONITOR
     return
   fi
   local status_count=$(cat /tmp/porc | grep -c -v '^??')
@@ -79,8 +75,6 @@ find_git_dirty() {
   fi
   # TODO: For consistency with ahead/behind variables, git_dirty could be renamed git_dirty_mark
   #       and s/mark/marker/ why not?
-
-  [[ -n "$ZSH_NAME" ]] && setopt MONITOR
 }
 
 find_git_ahead_behind() {
