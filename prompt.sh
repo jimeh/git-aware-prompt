@@ -18,7 +18,7 @@ find_git_dirty() {
   # This can happen on machines with slow disc access.
   # Hopefully each attempt will pull additional data into the FS cache, so on a later attempt it will complete in time.
   # On a large folder, this can take a lot of attempts.
-  # In fact I have seen it fail!  (Subsequent attempts fail to expand the cache significantly, although running `git status` does.)
+  # In fact I have seen it fail!  (Subsequent attempts fail to expand the cache significantly, although running `git status` does.)  But since then I have increased the loops from 2 to 7.
   # To prevent that, we may want the process to *continue* in the background.  (In which case we might also want to ensure that multiple attempts do not run in parallel, although that could be optional.)  In the meantime, of course, the user could run `git status` manually.
 
   # This is needed to stop zsh from spamming four job info messages!
@@ -34,9 +34,9 @@ find_git_dirty() {
     local gs_shell_pid="$!"
     (
       # Keep checking if the `git status` has completed; and if it has, abort.
-      for X in 1 7
+      for X in `seq 1 15`
       do
-        sleep 0.2
+        sleep 0.1
         [[ -f "$gs_done_file" ]] && exit
       done
       # But if the timeout is reached, kill the `git status`.
