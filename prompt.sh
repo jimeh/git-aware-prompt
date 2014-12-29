@@ -46,6 +46,8 @@ find_git_dirty() {
       kill "$gs_shell_pid"
       # Check it worked with jsh:
       #findjob git
+      # One time I got: find_git_dirty:kill:30: kill 19197 failed: no such process
+      # We may want to add 2>/dev/null to the two lines above, in case the process completes just before we issue the kill signal.
     ) &
     wait
   )
