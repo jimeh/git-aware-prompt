@@ -39,7 +39,7 @@ find_git_dirty() {
     local gs_shell_pid="$!"
     (
       # Keep checking if the `git status` has completed; and if it has, abort.
-      for X in `seq 1 15`
+      for X in `seq 1 10`
       do
         sleep 0.1
         [[ -f "$gs_done_file" ]] && exit
