@@ -60,12 +60,13 @@ find_git_dirty() {
   then
     git_dirty='#'
     git_dirty_count=''
+    git_staged_mark=''
+    git_staged_count=''
     return
   fi
   'rm' -f "$gs_done_file"
 
-  local status_count=$(cat "$gs_porc_file" | grep -c -v '^??')
-  'rm' -f "$gs_porc_file"
+  local status_count=$(grep -c -v '^??' "$gs_porc_file")
 
   # I added the grep -v because I don't mind the odd file hanging around.  Some users may be more strict about this!
   #local status_count=$(git status --porcelain 2> /dev/null | grep -c -v '^??')
@@ -78,6 +79,17 @@ find_git_dirty() {
   fi
   # TODO: For consistency with ahead/behind variables, git_dirty could be renamed git_dirty_mark
   #       and s/mark/marker/ why not?
+
+  git_staged_count=$(grep -c '^M.' "$gs_porc_file")
+  if [[ "$git_staged_count" > 0 ]]
+  then
+    git_staged_mark='~'
+  else
+    git_staged_mark=''
+    git_staged_count=''
+  fi
+
+  'rm' -f "$gs_porc_file"
 }
 
 find_git_ahead_behind() {
