@@ -66,10 +66,11 @@ find_git_dirty() {
   fi
   'rm' -f "$gs_done_file"
 
-  local status_count=$(grep -c -v '^??' "$gs_porc_file")
+  # Without a timeout:
+  #git status --porcelain 2> /dev/null > "$gs_porc_file"
 
   # I added the grep -v because I don't mind the odd file hanging around.  Some users may be more strict about this!
-  #local status_count=$(git status --porcelain 2> /dev/null | grep -c -v '^??')
+  local status_count=$(grep -c -v '^??' "$gs_porc_file")
   if [[ "$status_count" != 0 ]]; then
     git_dirty='*'
     git_dirty_count="$status_count"
