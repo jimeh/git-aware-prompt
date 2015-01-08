@@ -125,10 +125,10 @@ find_git_ahead_behind() {
 PROMPT_COMMAND="find_git_branch; find_git_dirty; find_git_ahead_behind; $PROMPT_COMMAND"
 
 # Default Git enabled prompt with dirty state
-# export PS1="\u@\h \w\[$txtcyn\]\$git_branch\[$txtred\]\$git_dirty\$git_ahead_mark\$git_behind_mark\[$txtrst\]\$ "
+# export PS1="\u@\h \w\[$txtcyn\]\$git_branch\[$txtred\]\$git_ahead_mark\$git_behind_mark\$git_dirty\[$txtrst\]\$ "
 
-# Another variant, which displays counts after each mark:
-# export PS1="\[$bldgrn\]\u@\h\[$txtrst\] \w\[$txtcyn\]\$git_branch\[$bldylw\]\$git_dirty\$git_dirty_count\[$txtrst\]\[$bldgrn\]\$git_ahead_mark\$git_ahead_count\[$txtrst\]\[$bldred\]\$git_behind_mark\$git_behind_count\[$txtrst\]\$ "
+# Another variant, which displays counts after each mark, and also the number of staged files:
+# export PS1="\[$bldgrn\]\u@\h\[$txtrst\] \w\[$txtcyn\]\$git_branch\[$txtrst\]\[$bldgrn\]\$git_ahead_mark\$git_ahead_count\[$txtrst\]\[$bldred\]\$git_behind_mark\$git_behind_count\[$txtrst\]\[$bldylw\]\$git_dirty\$git_dirty_count\[$bldylw\]\$git_staged_mark\$git_staged_count\$ "
 
 # Default Git enabled root prompt (for use with "sudo -s")
 # export SUDO_PS1="\[$bakred\]\u@\h\[$txtrst\] \w\$ "
