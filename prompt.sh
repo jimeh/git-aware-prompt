@@ -27,9 +27,9 @@ find_git_dirty() {
   # The following will abort the `git status` process if it is taking too long to complete.
   # This can happen on machines with slow disc access.
   # Hopefully each attempt will pull additional data into the FS cache, so on a later attempt it will complete in time.
-  # On a large folder, this can take a lot of attempts.
-  # In fact I have seen it fail!  (Subsequent attempts fail to expand the cache significantly, although running `git status` does.)  But since then I have increased the loops from 2 to 7.
-  # To prevent that, we may want the process to *continue* in the background.  (In which case we might also want to ensure that multiple attempts do not run in parallel, although that could be optional.)  In the meantime, of course, the user could run `git status` manually.
+  # On a large folder, this can take a lot of attempts, and rarely the cache will never fill!
+  # However forcing data into the cache by running `git status` manually always seems to work.
+  # To prevent that manual intervention, we may want to let the process to *continue* in the background.  (In which case we might also want to ensure that multiple attempts do not run in parallel, or at least use different tempfiles.)
 
   local gs_done_file=/tmp/done_gs.$USER.$$
   local gs_porc_file=/tmp/gs_porc.$USER.$$
@@ -41,19 +41,17 @@ find_git_dirty() {
     local gs_shell_pid="$!"
     (
       # Keep checking if the `git status` has completed; and if it has, abort.
+      # This number defines the length of the timeout (in tenths of a second).
       for X in `seq 1 10`; do
         sleep 0.1
         [[ -f "$gs_done_file" ]] && exit
       done
-      # But if the timeout is reached, kill the `git status`.
-      # Killing the parent (...)& shell is not enough; we also need to kill the child `git` process running inside it.
-      # We do that *before* killing the parent, because we cannot do it afterwards.  (An orphaned process gets PPID=1.)
+      # If the timeout is reached, kill the `git status`.
+      # Killing the parent (...)& shell is not enough; we also need to kill the child `git status` process running inside it.
+      # We must do this before killing the parent, because killing the parent first would leave the orphaned process with PPID 1.
       pkill -P "$gs_shell_pid"
       kill "$gs_shell_pid"
-      # Check it worked with jsh:
-      #findjob git
-      # One time I got: find_git_dirty:kill:30: kill 19197 failed: no such process
-      # We may want to add 2>/dev/null to the two lines above, in case the process completes just before we issue the kill signal.
+      # We may want to add 2>/dev/null to the two lines above, in case the process completes *just* before we issue the kill signal.
     ) &
     wait
   )
