@@ -14,11 +14,13 @@ find_git_branch() {
 }
 
 find_git_dirty() {
+  git_dirty=''
+  git_dirty_count=''
+  git_staged_mark=''
+  git_staged_count=''
+
   # Optimization.  Requires that find_git_branch always runs before find_git_dirty in PROMPT_COMMAND or zsh's precmd hook.
-  if [[ -z "$git_branch" ]]
-  then
-    git_dirty=''
-    git_dirty_count=''
+  if [[ -z "$git_branch" ]]; then
     return
   fi
 
@@ -39,8 +41,7 @@ find_git_dirty() {
     local gs_shell_pid="$!"
     (
       # Keep checking if the `git status` has completed; and if it has, abort.
-      for X in `seq 1 10`
-      do
+      for X in `seq 1 10`; do
         sleep 0.1
         [[ -f "$gs_done_file" ]] && exit
       done
@@ -56,12 +57,8 @@ find_git_dirty() {
     ) &
     wait
   )
-  if [[ ! -f "$gs_done_file" ]]
-  then
+  if [[ ! -f "$gs_done_file" ]]; then
     git_dirty='#'
-    git_dirty_count=''
-    git_staged_mark=''
-    git_staged_count=''
     return
   fi
   'rm' -f "$gs_done_file"
@@ -70,23 +67,19 @@ find_git_dirty() {
   #git status --porcelain 2> /dev/null > "$gs_porc_file"
 
   # I added the grep -v because I don't mind the odd file hanging around.  Some users may be more strict about this!
-  local status_count=$(grep -c -v '^??' "$gs_porc_file")
-  if [[ "$status_count" != 0 ]]; then
+  git_dirty_count=$(grep -c -v '^??' "$gs_porc_file")
+  if [[ "$git_dirty_count" > 0 ]]; then
     git_dirty='*'
-    git_dirty_count="$status_count"
   else
-    git_dirty=''
     git_dirty_count=''
   fi
   # TODO: For consistency with ahead/behind variables, git_dirty could be renamed git_dirty_mark
   #       and s/mark/marker/ why not?
 
   git_staged_count=$(grep -c '^M.' "$gs_porc_file")
-  if [[ "$git_staged_count" > 0 ]]
-  then
+  if [[ "$git_staged_count" > 0 ]]; then
     git_staged_mark='+'
   else
-    git_staged_mark=''
     git_staged_count=''
   fi
 
