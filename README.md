@@ -22,7 +22,11 @@ If you `cd` to a Git working directory, you will see the current Git branch
 name displayed in your terminal prompt. When you're not in a Git working
 directory, your prompt works like normal.
 
-This fork also shows you how far your local branch is **ahead** or **behind** the repository's branch.
+This fork by joeytwiddle also:
+- shows you how far your local branch is **ahead** or **behind** the repository's branch, and how many files are **staged**.
+- adds a **timeout** for slower machines so that you will get your prompt quickly, even if `git status` is taking too long to retrieve the dirty and staged stats. (Tested in bash and zsh.)
+
+If you *only* want the ahead/behind marks (no timeout and no staged stats), you may prefer the branch [ahead_behind](https://github.com/joeytwiddle/git-aware-prompt/tree/ahead_behind) or if you are curious about the code, see [ahead_behind_simple](https://github.com/joeytwiddle/git-aware-prompt/tree/ahead_behind_simple) ([compare](https://github.com/joeytwiddle/git-aware-prompt/compare/jimeh:518685d5d42ab9f298207dd66bbc213775c5cbee...ahead_behind_simple?expand=1)).
 
 ![Git Branch in Prompt](https://raw.github.com/joeytwiddle/git-aware-prompt/master/preview.png)
 
@@ -32,7 +36,20 @@ This fork also shows you how far your local branch is **ahead** or **behind** th
 
 > `>1` indicates that the local branch has 1 commit which has not yet been pushed.
 
-The symbols (or "markers") can be changed by editing the `prompt.sh` file directly.  The numbers or the markers can be omitted by removing the `_count` or `_mark` variables from the `PS1` prompt below.
+> `+1` would indicate that you have staged 1 file before comitting, but that is not shown above.
+
+> `#` indicates that `git status` was taking too long, so dirty `*` and staged `+` markers will not be shown this time.  In this eventuality, running `git status` manually will solve the delay (by bringing data into your filesystem cache), or `git commit -a` or hitting `<Enter>` a few times should also work.
+
+The symbols (or "markers") can be changed by editing the `prompt.sh` file directly (and reloading it of course).  The numbers or the markers can be omitted by removing the `_count` or `_mark` variables from the `PS1` prompt below.
+
+
+## See Also
+
+- The [original git-aware-prompt](https://github.com/jimeh/git-aware-prompt) by jimeh
+
+- The [prompt now distributed with git](https://github.com/git/git/blob/master/contrib/completion/git-prompt.sh) offers a `GIT_PS1_SHOWUPSTREAM` option.
+
+- Inspiration for this fork came from [git-branch-status](https://gist.github.com/jehiah/1288596) by jehiah
 
 
 ## Installation
