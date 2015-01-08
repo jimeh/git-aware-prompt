@@ -5,7 +5,7 @@ amazing. Constantly switching branches can be confusing though as you have to
 run `git status` to see which branch you're currently on.
 
 The solution to this is to have your terminal prompt display the current
-branch. There's a [number][1] [of][2] [articles][3] [available][4] online
+branch. There are a [number][1] [of][2] [articles][3] [available][4] online
 about how to achieve this.
 
 I based this project mainly on Aaron Crane's [solution][1].
