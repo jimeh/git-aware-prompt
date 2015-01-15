@@ -67,7 +67,7 @@ Edit your  `~/.profile` or `~/.bash_profile` and add the following to the top:
 ```bash
 export GITAWAREPROMPT=~/.bash/git-aware-prompt
 source $GITAWAREPROMPT/main.sh
-export PS1="\[$bldgrn\]\u@\h\[$txtrst\] \w\[$txtcyn\]\$git_branch\[$txtrst\]\[$bldgrn\]\$git_ahead_mark\$git_ahead_count\[$txtrst\]\[$bldred\]\$git_behind_mark\$git_behind_count\[$txtrst\]\[$bldylw\]\$git_dirty\$git_dirty_count\[$bldylw\]\$git_staged_mark\$git_staged_count\$ "
+export PS1="\[$bldgrn\]\u@\h\[$txtrst\] \w\[$txtcyn\]\$git_branch\[$bldgrn\]\$git_ahead_mark\$git_ahead_count\[$txtrst\]\[$bldred\]\$git_behind_mark\$git_behind_count\[$txtrst\]\[$txtylw\]\$git_dirty\$git_dirty_count\[$txtcyn\]\$git_staged_mark\$git_staged_count\[$txtrst\]\$ "
 ```
 
 Optionally, if you want a nice pretty prompt when using `sudo -s`, also add
