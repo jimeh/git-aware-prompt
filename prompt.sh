@@ -74,7 +74,7 @@ find_git_dirty() {
   # TODO: For consistency with ahead/behind variables, git_dirty could be renamed git_dirty_mark
   #       and s/mark/marker/ why not?
 
-  git_staged_count=$(grep -c '^M.' "$gs_porc_file")
+  git_staged_count=$(grep -c '^[AM].' "$gs_porc_file")
   if [[ "$git_staged_count" > 0 ]]; then
     git_staged_mark='+'
   else
