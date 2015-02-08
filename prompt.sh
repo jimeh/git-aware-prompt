@@ -113,13 +113,28 @@ find_git_ahead_behind() {
   fi
 }
 
-PROMPT_COMMAND="find_git_branch; find_git_dirty; find_git_ahead_behind; $PROMPT_COMMAND"
+find_git_stash_status() {
+  git_stash_mark=''
+  if [[ -z "$git_branch" ]]; then
+    return
+  fi
+  local stashed_commit=$(git stash list -n 1 | cut -d ':' -f 3 | cut -d ' ' -f 2)
+  local current_commit=$(git rev-parse --short HEAD 2> /dev/null)
+  local stashed_branch=$(git stash list -n 1 | cut -d ':' -f 2 | sed 's+.* ++')
+  local current_branch=$(git symbolic-ref --short HEAD 2> /dev/null)
+  # CONSIDER: Alternatively we could have just grepped `git stast list` for either the commit_id or the branch_name.  This would also indicate older matching stashes.
+  if [[ "$stashed_commit" = "$current_commit" ]] || [[ "$stashed_branch" = "$current_branch" ]]
+  then git_stash_mark='(s)'
+  fi
+}
+
+PROMPT_COMMAND="find_git_branch; find_git_dirty; find_git_ahead_behind; find_git_stash_status; $PROMPT_COMMAND"
 
 # Default Git enabled prompt with dirty state
 # export PS1="\u@\h \w\[$txtcyn\]\$git_branch\[$txtred\]\$git_ahead_mark\$git_behind_mark\$git_dirty\[$txtrst\]\$ "
 
-# Another variant, which displays counts after each mark, and also the number of staged files:
-# export PS1="\[$bldgrn\]\u@\h\[$txtrst\] \w\[$txtcyn\]\$git_branch\[$bldgrn\]\$git_ahead_mark\$git_ahead_count\[$txtrst\]\[$bldred\]\$git_behind_mark\$git_behind_count\[$txtrst\]\[$txtylw\]\$git_dirty\$git_dirty_count\[$txtcyn\]\$git_staged_mark\$git_staged_count\[$txtrst\]\$ "
+# Another variant, which displays counts after each mark, the number of staged files, and the stash status:
+# export PS1="\[$bldgrn\]\u@\h\[$txtrst\] \w\[$txtcyn\]\$git_branch\[$bldgrn\]\$git_ahead_mark\$git_ahead_count\[$txtrst\]\[$bldred\]\$git_behind_mark\$git_behind_count\[$txtrst\]\[$bldyellow\]\$git_stash_mark\[$txtrst\]\[$txtylw\]\$git_dirty\$git_dirty_count\[$txtcyn\]\$git_staged_mark\$git_staged_count\[$txtrst\]\$ "
 
 # Default Git enabled root prompt (for use with "sudo -s")
 # export SUDO_PS1="\[$bakred\]\u@\h\[$txtrst\] \w\$ "

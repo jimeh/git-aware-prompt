@@ -23,7 +23,9 @@ name displayed in your terminal prompt. When you're not in a Git working
 directory, your prompt works like normal.
 
 This fork by joeytwiddle also:
-- shows you how far your local branch is **ahead** or **behind** the repository's branch, and how many files are **staged**.
+- shows you how far your local branch is **ahead** or **behind** the repository's branch
+- shows how many files are **staged**
+- indicates when the top **stash** entry was based on the current commit or branch
 - adds a **timeout** for slower machines so that you will get your prompt quickly, even if `git status` is taking too long to retrieve the dirty and staged stats. (Tested in bash and zsh.)
 
 If you *only* want the ahead/behind marks (no timeout and no staged stats), you may prefer the branch [ahead_behind](https://github.com/joeytwiddle/git-aware-prompt/tree/ahead_behind) or if you are curious about the code, see [ahead_behind_simple](https://github.com/joeytwiddle/git-aware-prompt/tree/ahead_behind_simple) ([compare](https://github.com/joeytwiddle/git-aware-prompt/compare/jimeh:518685d5d42ab9f298207dd66bbc213775c5cbee...ahead_behind_simple?expand=1)).
@@ -67,7 +69,7 @@ Edit your  `~/.profile` or `~/.bash_profile` and add the following to the top:
 ```bash
 export GITAWAREPROMPT=~/.bash/git-aware-prompt
 source $GITAWAREPROMPT/main.sh
-export PS1="\[$bldgrn\]\u@\h\[$txtrst\] \w\[$txtcyn\]\$git_branch\[$bldgrn\]\$git_ahead_mark\$git_ahead_count\[$txtrst\]\[$bldred\]\$git_behind_mark\$git_behind_count\[$txtrst\]\[$txtylw\]\$git_dirty\$git_dirty_count\[$txtcyn\]\$git_staged_mark\$git_staged_count\[$txtrst\]\$ "
+export PS1="\[$bldgrn\]\u@\h\[$txtrst\] \w\[$txtcyn\]\$git_branch\[$bldgrn\]\$git_ahead_mark\$git_ahead_count\[$txtrst\]\[$bldred\]\$git_behind_mark\$git_behind_count\[$txtrst\]\[$bldyellow\]\$git_stash_mark\[$txtrst\]\[$txtylw\]\$git_dirty\$git_dirty_count\[$txtcyn\]\$git_staged_mark\$git_staged_count\[$txtrst\]\$ "
 ```
 
 Optionally, if you want a nice pretty prompt when using `sudo -s`, also add
