@@ -65,7 +65,9 @@ find_git_dirty() {
   #git status --porcelain 2> /dev/null > "$gs_porc_file"
 
   # I added the grep -v because I don't mind the odd file hanging around.  Some users may be more strict about this!
-  git_dirty_count=$(grep -c -v '^??' "$gs_porc_file")
+  #git_dirty_count=$(grep -c -v '^??' "$gs_porc_file")
+  # The second grep hides staged files
+  git_dirty_count=$(grep -v '^??' "$gs_porc_file" | grep -c -v '^M ')
   if [[ "$git_dirty_count" > 0 ]]; then
     git_dirty='*'
   else
