@@ -87,11 +87,14 @@ find_git_dirty() {
 }
 
 find_git_ahead_behind() {
-  local local_branch=$(git rev-parse --abbrev-ref HEAD 2> /dev/null)
   git_ahead_count=''
   git_ahead_mark=''
   git_behind_count=''
   git_behind_mark=''
+  if [[ -z "$git_branch" ]]; then
+    return
+  fi
+  local local_branch=$(git rev-parse --abbrev-ref HEAD 2> /dev/null)
   if [[ -n "$local_branch" ]] && [[ "$local_branch" != "HEAD" ]]; then
     local upstream_branch=$(git rev-parse --abbrev-ref "@{upstream}" 2> /dev/null)
     # If we get back what we put in, then that means the upstream branch was not found.  (This was observed on git 1.7.10.4 on Ubuntu)
