@@ -24,36 +24,38 @@ find_git_dirty() {
     return
   fi
 
-  # The following will abort the `git status` process if it is taking too long to complete.
-  # This can happen on machines with slow disc access.
-  # Hopefully each attempt will pull additional data into the FS cache, so on a later attempt it will complete in time.
-  # On a large folder, this can take a lot of attempts, and rarely the cache will never fill!
-  # However forcing data into the cache by running `git status` manually always seems to work.
-  # To prevent that manual intervention, we may want to let the process to *continue* in the background.  (In which case we might also want to ensure that multiple attempts do not run in parallel, or at least use different tempfiles.)
+  # We run `git status` in the background, but stop waiting for it if it is taking too long to complete.
+  # This can happen on machines with slow disc access, especially when first entering a large repository.
+  # We do not actually cache the *result* of `git status`, instead we trust the machine to fill its disk cache with file info from the working tree.
+  # (Caching the result would risk displaying out-of-date stats.  We want to provide up-to-date stats, or no stats.)
+  # Once `git status` has completed once, all the file info should be in the disk cache, so later runs of `git status` should complete within the time limit.
+  # If this is not happening, increase the `seq 1 5` below to `seq 1 10`.
 
   local gs_done_file=/tmp/done_gs.$USER.$$
   local gs_porc_file=/tmp/gs_porc.$USER.$$
-  # We need to start a subshell here, otherwise the `wait` below will be applied to jobs which the user has backgrounded (observed in zsh).  We only want it to apply to the two parallel jobs we start here.
   (
     # This is needed to stop zsh from spamming four job info messages!
     [[ -n "$ZSH_NAME" ]] && unsetopt MONITOR
+    # Start running the git status process in the background
     ( git status --porcelain 2> /dev/null > "$gs_porc_file" ; touch "$gs_done_file" ) &
-    local gs_shell_pid="$!"
-    (
-      # Keep checking if the `git status` has completed; and if it has, abort.
-      # This number defines the length of the timeout (in tenths of a second).
-      for X in `seq 1 10`; do
-        sleep 0.1
-        [[ -f "$gs_done_file" ]] && exit
-      done
-      # If the timeout is reached, kill the `git status`.
-      # Killing the parent (...)& shell is not enough; we also need to kill the child `git status` process running inside it.
-      # We must do this before killing the parent, because killing the parent first would leave the orphaned process with PPID 1.
-      pkill -P "$gs_shell_pid"
-      kill "$gs_shell_pid"
-      # We may want to add 2>/dev/null to the two lines above, in case the process completes *just* before we issue the kill signal.
-    ) &
-    wait
+  )
+  local gs_shell_pid="$!"
+  (
+    # This is needed to stop zsh from spamming four job info messages!
+    [[ -n "$ZSH_NAME" ]] && unsetopt MONITOR
+
+    # Wait for that process to complete, or give up waiting if the timeout is reached.
+    # This number defines the length of the timeout (in tenths of a second).
+    for X in `seq 1 5`; do
+      sleep 0.1
+      [[ -f "$gs_done_file" ]] && exit
+    done
+    # If the timeout is reached, kill the `git status`.
+    # Killing the parent (...)& shell is not enough; we also need to kill the child `git status` process running inside it.
+    # We must do this before killing the parent, because killing the parent first would leave the orphaned process with PPID 1.
+    #pkill -P "$gs_shell_pid"
+    #kill "$gs_shell_pid"
+    # We may want to add 2>/dev/null to the two lines above, in case the process completes *just* before we issue the kill signal.
   )
   if [[ ! -f "$gs_done_file" ]]; then
     git_dirty='#'
