@@ -18,6 +18,8 @@ find_git_dirty() {
   git_dirty_count=''
   git_staged_mark=''
   git_staged_count=''
+  git_unknown_mark=''
+  git_unknown_count=''
 
   # Optimization.  Requires that find_git_branch always runs before find_git_dirty in PROMPT_COMMAND or zsh's precmd hook.
   if [[ -z "$git_branch" ]]; then
@@ -68,10 +70,12 @@ find_git_dirty() {
   # Without a timeout:
   #git status --porcelain 2> /dev/null > "$gs_porc_file"
 
-  # I added the grep -v because I don't mind the odd file hanging around.  Some users may be more strict about this!
+  # All dirty files (modified and untracked)
+  #git_dirty_count=$(cat "$gs_porc_file" | wc -l)
+  # Only modified files
   #git_dirty_count=$(grep -c -v '^??' "$gs_porc_file")
-  # The second grep hides staged files
-  git_dirty_count=$(grep -v '^??' "$gs_porc_file" | grep -c -v '^M ')
+  # Only modified files which have not been staged.  The second grep hides staged files ("M ") and staged newly added files "A ".
+  git_dirty_count=$(grep -v '^??' "$gs_porc_file" | grep -c -v '^[AM] ')
   if [[ "$git_dirty_count" > 0 ]]; then
     git_dirty='*'
   else
@@ -79,6 +83,14 @@ find_git_dirty() {
   fi
   # TODO: For consistency with ahead/behind variables, git_dirty could be renamed git_dirty_mark
   #       and s/mark/marker/ why not?
+
+  # Untracked/unknown files
+  git_unknown_count=$(grep -c "^??" "$gs_porc_file")
+  if [[ "$git_unknown_count" > 0 ]]; then
+    git_unknown_mark='?'
+  else
+    git_unknown_count=''
+  fi
 
   git_staged_count=$(grep -c '^[AM].' "$gs_porc_file")
   if [[ "$git_staged_count" > 0 ]]; then
@@ -143,8 +155,8 @@ PROMPT_COMMAND="find_git_branch; find_git_dirty; find_git_ahead_behind; find_git
 # Default Git enabled prompt with dirty state
 # export PS1="\u@\h \w\[$txtcyn\]\$git_branch\[$txtred\]\$git_ahead_mark\$git_behind_mark\$git_dirty\[$txtrst\]\$ "
 
-# Another variant, which displays counts after each mark, the number of staged files, and the stash status:
-# export PS1="\[$bldgrn\]\u@\h\[$txtrst\] \w\[$txtcyn\]\$git_branch\[$bldgrn\]\$git_ahead_mark\$git_ahead_count\[$txtrst\]\[$bldred\]\$git_behind_mark\$git_behind_count\[$txtrst\]\[$bldyellow\]\$git_stash_mark\[$txtrst\]\[$txtylw\]\$git_dirty\$git_dirty_count\[$txtcyn\]\$git_staged_mark\$git_staged_count\[$txtrst\]\$ "
+# Another variant, which displays counts after each mark, the number of untracked files, the number of staged files, and the stash status:
+# export PS1="\[$bldgrn\]\u@\h\[$txtrst\] \w\[$txtcyn\]\$git_branch\[$bldgrn\]\$git_ahead_mark\$git_ahead_count\[$txtrst\]\[$bldred\]\$git_behind_mark\$git_behind_count\[$txtrst\]\[$bldyellow\]\$git_stash_mark\[$txtrst\]\[$txtylw\]\$git_dirty\$git_dirty_count\$git_unknown_mark\$git_unknown_count\[$txtcyn\]\$git_staged_mark\$git_staged_count\[$txtrst\]\$ "
 
 # Default Git enabled root prompt (for use with "sudo -s")
 # export SUDO_PS1="\[$bakred\]\u@\h\[$txtrst\] \w\$ "
