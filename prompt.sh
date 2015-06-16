@@ -128,8 +128,9 @@ find_git_stash_status() {
   local stashed_commit=$(git stash list -n 1 | cut -d ':' -f 3 | cut -d ' ' -f 2)
   local current_commit=$(git rev-parse --short HEAD 2> /dev/null)
   local stashed_branch=$(git stash list -n 1 | cut -d ':' -f 2 | sed 's+.* ++')
-  local current_branch=$(git symbolic-ref --short HEAD 2> /dev/null)
-  # CONSIDER: Alternatively we could have just grepped `git stast list` for either the commit_id or the branch_name.  This would also indicate older matching stashes.
+  local current_branch=$(git rev-parse --abbrev-ref HEAD 2> /dev/null)
+  # This sets the stash marker if either the current commit or the current branch name is mentioned in the top stack entry.
+  # CONSIDER: Alternatively we could have just grepped `git stash list` for either the commit_id or the branch_name.  This would also indicate older matching stashes.
   if [[ "$stashed_commit" = "$current_commit" ]] || [[ -n "$current_branch" ]] && [[ "$stashed_branch" = "$current_branch" ]]; then
     git_stash_mark='(s)'
   fi
