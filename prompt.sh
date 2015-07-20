@@ -33,6 +33,8 @@ find_git_dirty() {
 
   local gs_done_file=/tmp/done_gs.$USER.$$
   local gs_porc_file=/tmp/gs_porc.$USER.$$
+  # Because we background the process but we don't always wait for it, there may be a done_file from a previous fork.  If we don't remove it, it could cause us to stop waiting prematurely.
+  'rm' -f "$gs_done_file"
   (
     # This is needed to stop zsh from spamming four job info messages!
     [[ -n "$ZSH_NAME" ]] && unsetopt MONITOR
