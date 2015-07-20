@@ -40,7 +40,11 @@ If you *only* want the ahead/behind marks (no timeout and no staged stats), you 
 
 > `+1` would indicate that you have staged 1 file before comitting, but that is not shown above.
 
-> `#` indicates that `git status` was taking too long, so dirty `*` and staged `+` markers will not be shown this time.  In this eventuality, running `git status` manually will solve the delay (by bringing data into your filesystem cache), or `git commit -a` or hitting `<Enter>` a few times should also work.
+> `?4` would indicate that there are 4 untracked files in the tree, also not shown.
+
+> `#` indicates that `git status` was taking too long, so dirty `*` staged `+` and untracked `?` markers will not be shown this time.  `git status` will continue running in the background, so after a few moments, hitting `<Enter>` again should give you an up-to-date summary.
+
+> `(s)` is a reminder that the top stash was made on the current branch, or the current commit.
 
 The symbols (or "markers") can be changed by editing the `prompt.sh` file directly (and reloading it of course).  The numbers or the markers can be omitted by removing the `_count` or `_mark` variables from the `PS1` prompt below.
 
@@ -69,7 +73,7 @@ Edit your  `~/.profile` or `~/.bash_profile` and add the following to the top:
 ```bash
 export GITAWAREPROMPT=~/.bash/git-aware-prompt
 source $GITAWAREPROMPT/main.sh
-export PS1="\[$bldgrn\]\u@\h\[$txtrst\] \w\[$txtcyn\]\$git_branch\[$bldgrn\]\$git_ahead_mark\$git_ahead_count\[$txtrst\]\[$bldred\]\$git_behind_mark\$git_behind_count\[$txtrst\]\[$bldyellow\]\$git_stash_mark\[$txtrst\]\[$txtylw\]\$git_dirty\$git_dirty_count\[$txtcyn\]\$git_staged_mark\$git_staged_count\[$txtrst\]\$ "
+export PS1="\[$bldgrn\]\u@\h\[$txtrst\] \w\[$txtcyn\]\$git_branch\[$bldgrn\]\$git_ahead_mark\$git_ahead_count\[$txtrst\]\[$bldred\]\$git_behind_mark\$git_behind_count\[$txtrst\]\[$bldyellow\]\$git_stash_mark\[$txtrst\]\[$txtylw\]\$git_dirty\$git_dirty_count\[$txtcyn\]\$git_staged_mark\$git_staged_count\[$txtblu\]\$git_untracked_mark\$git_untracked_count\[$txtrst\]\$ "
 ```
 
 Optionally, if you want a nice pretty prompt when using `sudo -s`, also add
