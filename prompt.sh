@@ -96,7 +96,7 @@ find_git_dirty() {
     git_unknown_count=''
   fi
 
-  git_staged_count=$(grep -c '^[AM].' "$gs_porc_file")
+  git_staged_count=$(grep -c '^[AMD].' "$gs_porc_file")
   if [[ "$git_staged_count" > 0 ]]; then
     git_staged_mark='+'
   else
