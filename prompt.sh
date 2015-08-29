@@ -1,3 +1,7 @@
+# Other things we could count:
+# - Number of conflicts
+# - Whether we are on a merge or a rebase?
+
 find_git_branch() {
   # Based on: http://stackoverflow.com/a/13003854/170413
   local branch
