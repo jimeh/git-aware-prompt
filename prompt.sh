@@ -1,18 +1,20 @@
 find_git_branch() {
   # Based on: http://stackoverflow.com/a/13003854/170413
-  local branch
-  if branch=$(git rev-parse --abbrev-ref HEAD 2> /dev/null); then
-    if [[ "$branch" == "HEAD" ]]; then
-      branch=$(git name-rev --tags --name-only $(git rev-parse HEAD))
-    fi
-    if [[ $branch == *"~"* || $branch == *" "* ]]; then
-	git_branch="(detached*)";
+    local branch
+    if branch=$(git rev-parse --abbrev-ref HEAD 2> /dev/null); then
+	if [[ "$branch" == "HEAD" ]]; then
+	    branch=$(git name-rev --tags --name-only $(git rev-parse HEAD))
+	    if [[ $branch == *"~"* || $branch == *" "* ]]; then
+		git_branch="(detached*)";
+	    else
+		git_branch="[$branch]"
+	    fi
+	else
+	    git_branch="($branch)"
+	fi
     else
-	git_branch="[$branch]"
+	git_branch=""
     fi
-    else
-    git_branch=""
-  fi
 }
 
 find_git_dirty() {
