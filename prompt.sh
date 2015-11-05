@@ -96,7 +96,11 @@ find_git_dirty() {
     git_unknown_count=''
   fi
 
-  git_staged_count=$(grep -c '^[AMDR].' "$gs_porc_file")
+  # How many files are staged?
+  # Whitelist:
+  #git_staged_count=$(grep -c '^[AMDR].' "$gs_porc_file")
+  # Blacklist:
+  git_staged_count=$(grep -c '^[^ ?].' "$gs_porc_file")
   if [[ "$git_staged_count" > 0 ]]; then
     git_staged_mark='+'
   else
