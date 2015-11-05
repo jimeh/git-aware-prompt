@@ -10,6 +10,8 @@ find_git_branch() {
       #branch='<detached>'
       # Or show the short hash
       branch='#'$(git rev-parse --short HEAD 2> /dev/null)
+      # Or the long hash, with no leading '#'
+      #branch=$(git rev-parse HEAD 2> /dev/null)
     fi
     git_branch=" [$branch]"
   else
@@ -54,7 +56,7 @@ find_git_dirty() {
 
     # Wait for that process to complete, or give up waiting if the timeout is reached.
     # This number defines the length of the timeout (in tenths of a second).
-    for X in `seq 1 5`; do
+    for X in `seq 1 5`; do   # 10
       sleep 0.1
       [[ -f "$gs_done_file" ]] && exit
     done
