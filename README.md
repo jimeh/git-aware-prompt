@@ -55,6 +55,8 @@ The symbols (or "markers") can be changed by editing the `prompt.sh` file direct
 
 - The [prompt now distributed with git](https://github.com/git/git/blob/master/contrib/completion/git-prompt.sh) offers a `GIT_PS1_SHOWUPSTREAM` option.
 
+- [Oh-my-zsh](https://github.com/robbyrussell/oh-my-zsh) also has its own [git-prompt](https://github.com/robbyrussell/oh-my-zsh/blob/master/plugins/gitfast/git-prompt.sh).  (It has 500 lines compared to our 200.)
+
 - Inspiration for this fork came from [git-branch-status](https://gist.github.com/jehiah/1288596) by jehiah
 
 
