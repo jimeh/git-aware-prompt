@@ -7,11 +7,17 @@ find_git_branch() {
   local branch
   if branch=$(git rev-parse --abbrev-ref HEAD 2> /dev/null); then
     if [[ "$branch" == "HEAD" ]]; then
-      #branch='<detached>'
-      # Or show the short hash
-      branch='#'$(git rev-parse --short HEAD 2> /dev/null)
-      # Or the long hash, with no leading '#'
-      #branch=$(git rev-parse HEAD 2> /dev/null)
+      # Check for tag.  From jordi-adell's branch.
+      branch=$(git name-rev --tags --name-only $(git rev-parse HEAD))
+      if ! [[ $branch == *"~"* || $branch == *" "* ]]; then
+        branch="+${branch}"
+      else
+        #branch='<detached>'
+        # Or show the short hash
+        branch='#'$(git rev-parse --short HEAD 2> /dev/null)
+        # Or the long hash, with no leading '#'
+        #branch=$(git rev-parse HEAD 2> /dev/null)
+      fi
     fi
     git_branch=" [$branch]"
   else
