@@ -11,6 +11,7 @@ find_git_branch() {
       branch=$(git name-rev --tags --name-only $(git rev-parse HEAD))
       if ! [[ $branch == *"~"* || $branch == *" "* ]]; then
         branch="+${branch}"
+        # NOTE: During a rebase this displays [+undefined].  We may want to display something a little more reassuring.
       else
         #branch='<detached>'
         # Or show the short hash
