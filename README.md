@@ -6,9 +6,8 @@ run `git status` to see which branch you're currently on.
 
 The solution to this is to have your terminal prompt display the current
 branch. There are a [number][1] [of][2] [articles][3] [available][4] online
-about how to achieve this.
-
-I based this project mainly on Aaron Crane's [solution][1].
+about how to achieve this. This project is an attempt to make an easy to
+install/configure solution.
 
 [1]: http://aaroncrane.co.uk/2009/03/git_branch_prompt/
 [2]: http://railstips.org/2009/2/2/bedazzle-your-bash-prompt-with-git-info
@@ -70,12 +69,38 @@ cd ~/.bash
 git clone git://github.com/joeytwiddle/git-aware-prompt.git
 ```
 
-Edit your  `~/.profile` or `~/.bash_profile` and add the following to the top:
+Edit your `~/.bash_profile` or `~/.profile` and add the following to the top:
 
 ```bash
 export GITAWAREPROMPT=~/.bash/git-aware-prompt
-source $GITAWAREPROMPT/main.sh
-export PS1="\[$bldgrn\]\u@\h\[$txtrst\] \w\[$txtcyn\]\$git_branch\[$bldgrn\]\$git_ahead_mark\$git_ahead_count\[$txtrst\]\[$bldred\]\$git_behind_mark\$git_behind_count\[$txtrst\]\[$bldyellow\]\$git_stash_mark\[$txtrst\]\[$txtylw\]\$git_dirty\$git_dirty_count\[$txtcyn\]\$git_staged_mark\$git_staged_count\[$txtblu\]\$git_untracked_mark\$git_untracked_count\[$txtrst\]\$ "
+source "${GITAWAREPROMPT}/main.sh"
+```
+
+
+## Configuring
+
+Once installed, there will be new `$git_branch` and `$git_dirty` variables
+available to use in the `PS1` environment variable, along with a number of
+color helper variables which you can see a list of in [colors.sh][].
+
+[colors.sh]: https://github.com/jimeh/git-aware-prompt/blob/master/colors.sh
+
+If you want to know more about how to customize your prompt, I recommend
+this article: [How to: Change / Setup bash custom prompt (PS1)][how-to]
+
+[how-to]: http://www.cyberciti.biz/tips/howto-linux-unix-bash-shell-setup-prompt.html
+
+
+### Suggested Prompts
+
+Below are a few suggested prompt configurations. Simply paste the code at the
+end of the same file you pasted the installation code into earlier.
+
+
+#### Mac OS X
+
+```bash
+export PS1="\u@\h \W \[$txtcyn\]\$git_branch\[$bldgrn\]\$git_ahead_mark\$git_ahead_count\[$txtrst\]\[$bldred\]\$git_behind_mark\$git_behind_count\[$txtrst\]\[$bldyellow\]\$git_stash_mark\[$txtrst\]\[$txtylw\]\$git_dirty\$git_dirty_count\[$txtrst\]\$ "
 ```
 
 Optionally, if you want a nice pretty prompt when using `sudo -s`, also add
@@ -85,24 +110,20 @@ this line:
 export SUDO_PS1="\[$bakred\]\u@\h\[$txtrst\] \w\$ "
 ```
 
-The new prompt will take effect beginning in your next session. This usually
-means logging out completely. To enable it in your current session, you can
-simply run `source ~/.profile` or `source ~/.bash_profile` (whichever you
-edited above) in your terminal.
 
+#### Ubuntu
 
-## Configuring
+Standard:
 
-If you followed the above installation instructions, you've added the default
-prompt style already by defining the `PS1` variable. If you don't know how to
-customize your prompt, I recommend you check [this][5] how-to.
+```bash
+export PS1="\${debian_chroot:+(\$debian_chroot)}\u@\h:\w \[$txtcyn\]\$git_branch\[$bldgrn\]\$git_ahead_mark\$git_ahead_count\[$txtrst\]\[$bldred\]\$git_behind_mark\$git_behind_count\[$txtrst\]\[$bldyellow\]\$git_stash_mark\[$txtrst\]\[$txtylw\]\$git_dirty\$git_dirty_count\[$txtrst\]\$ "
+```
 
-[5]: http://www.cyberciti.biz/tips/howto-linux-unix-bash-shell-setup-prompt.html
+Colorized:
 
-Basically, to have the current Git branch shown, simply add `$git_branch` to
-your `PS1` variable, and make sure the variable value is defined with double
-quotes. A set of color variables have also been set for you to use. For a list
-of available colors check `colors.sh`.
+```bash
+export PS1="\${debian_chroot:+(\$debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\] \[$txtcyn\]\$git_branch\[$bldgrn\]\$git_ahead_mark\$git_ahead_count\[$txtrst\]\[$bldred\]\$git_behind_mark\$git_behind_count\[$txtrst\]\[$bldyellow\]\$git_stash_mark\[$txtrst\]\[$txtylw\]\$git_dirty\$git_dirty_count\[$txtrst\]\$ "
+```
 
 
 ## Updating
@@ -125,18 +146,4 @@ page. Or if you have tips of your own, feel free to add them :)
 
 ## License
 
-```
-        DO WHAT THE FUCK YOU WANT TO PUBLIC LICENSE
-                    Version 2, December 2004
-
- Copyright (C) 2014 Jim Myhrberg
-
- Everyone is permitted to copy and distribute verbatim or modified
- copies of this license document, and changing it is allowed as long
- as the name is changed.
-
-            DO WHAT THE FUCK YOU WANT TO PUBLIC LICENSE
-   TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND MODIFICATION
-
-  0. You just DO WHAT THE FUCK YOU WANT TO.
-```
+[CC0 1.0 Universal](http://creativecommons.org/publicdomain/zero/1.0/)
