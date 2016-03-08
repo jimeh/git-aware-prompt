@@ -86,8 +86,11 @@ find_git_dirty() {
   #git_dirty_count=$(cat "$gs_porc_file" | wc -l)
   # Only modified files
   #git_dirty_count=$(grep -c -v '^??' "$gs_porc_file")
-  # Only modified files which have not been staged.  The second grep hides staged files ("M ") and staged newly added files "A ".
-  git_dirty_count=$(grep -v '^??' "$gs_porc_file" | grep -c -v '^[AM] ')
+  # Only modified files which have not been staged.  The second grep hides staged [M]odified files, staged [A]dded files, staged [D]eletes and staged [R]enames.
+  # Whitelist:
+  #git_dirty_count=$(grep -v '^??' "$gs_porc_file" | grep -c -v '^[AMDR] ')
+  # Permissive (hide anything that appears to be cleanly staged):
+  git_dirty_count=$(grep -v '^??' "$gs_porc_file" | grep -c -v '^[^ ?] ')
   if [[ "$git_dirty_count" > 0 ]]; then
     git_dirty='*'
   else
@@ -107,7 +110,7 @@ find_git_dirty() {
   # How many files are staged?
   # Whitelist:
   #git_staged_count=$(grep -c '^[AMDR].' "$gs_porc_file")
-  # Blacklist:
+  # Permissive (show anything which appears to be staged):
   git_staged_count=$(grep -c '^[^ ?].' "$gs_porc_file")
   if [[ "$git_staged_count" > 0 ]]; then
     git_staged_mark='+'
