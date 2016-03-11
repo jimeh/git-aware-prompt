@@ -53,7 +53,8 @@ find_git_dirty() {
     # This is needed to stop zsh from spamming four job info messages!
     [[ -n "$ZSH_NAME" ]] && unsetopt MONITOR
     # Start running the git status process in the background
-    ( git status --porcelain 2> /dev/null > "$gs_porc_file" ; touch "$gs_done_file" ) &
+    # -uall lists files below un-added folders; without it only the parent folder is listed
+    ( git status --porcelain -uall 2> /dev/null > "$gs_porc_file" ; touch "$gs_done_file" ) &
   )
   local gs_shell_pid="$!"
   (
