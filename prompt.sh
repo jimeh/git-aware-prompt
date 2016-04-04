@@ -57,8 +57,11 @@ find_git_dirty() {
   local gs_porc_file=/tmp/gs_porc.$USER.$$
   # Because we background the process but we don't always wait for it, there may be a done_file from a previous fork.  If we don't remove it, it could cause us to stop waiting prematurely.
   'rm' -f "$gs_done_file"
+
+  # If the MONITOR option is set, we need to unset it, to stop zsh from spamming four job info messages!
+  # We do this in a subshell so we won't affect the setting in the outer (user's) shell.
+  # CONSIDER: Instead of subshell, we could check the value of MONITOR before, and restore it afterwards.
   (
-    # This is needed to stop zsh from spamming four job info messages!
     [[ -n "$ZSH_NAME" ]] && unsetopt MONITOR
     # Start running the git status process in the background
     # -uall lists files below un-added folders; without it only the parent folder is listed
