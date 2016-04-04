@@ -85,6 +85,14 @@ find_git_dirty() {
     #kill "$gs_shell_pid"
     # We may want to add 2>/dev/null to the two lines above, in case the process completes *just* before we issue the kill signal.
   )
+
+  # This should be a simpler way to do the same as the above.
+  # Crucially we don't want to stop the git status process if it times out, we want to let it continue to run in the background.
+  # Unfortunately it seemed that when I sent SIGHUP to git status, it didn't continue in the background, but it actually stopped running.
+  # If I sent SIGCONT after the timeout, it would remain running in the foreground, which is not what we wanted.
+  #timeout -s HUP 0.4s git status --porcelain 2> /dev/null > "$gs_porc_file"
+  #[ "$?" = 0 ] && touch "$gs_done_file"
+
   if [[ ! -f "$gs_done_file" ]]; then
     git_dirty='#'
     return
