@@ -88,10 +88,11 @@ find_git_dirty() {
   # Only modified files
   #git_dirty_count=$(grep -c -v '^??' "$gs_porc_file")
   # Only modified files which have not been staged.  The second grep hides staged [M]odified files, staged [A]dded files, staged [D]eletes and staged [R]enames.
-  # Whitelist:
+  # Whitelist: Hide things which we know mean cleanly staged.
   #git_dirty_count=$(grep -v '^??' "$gs_porc_file" | grep -c -v '^[AMDR] ')
-  # Permissive (hide anything that appears to be cleanly staged):
-  git_dirty_count=$(grep -v '^??' "$gs_porc_file" | grep -c -v '^[^ ?] ')
+  # Blacklist: Hide things which we think mean cleanly staged.
+  # That is anything with a space in the second column, or in the case of staged resolved merge conflicts, 'UU'.
+  git_dirty_count=$(grep -v '^??' "$gs_porc_file" | grep -c -v '^\([^ ?] \|UU\)')
   if [[ "$git_dirty_count" > 0 ]]; then
     git_dirty='*'
   else
