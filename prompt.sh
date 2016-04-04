@@ -74,7 +74,7 @@ find_git_dirty() {
 
     # Wait for that process to complete, or give up waiting if the timeout is reached.
     # This number defines the length of the timeout (in tenths of a second).
-    for X in `seq 1 5`; do   # 10
+    for X in {1..4}; do   # Or increase to 10 for 1 second timeout
       sleep 0.1
       [[ -f "$gs_done_file" ]] && exit
     done
