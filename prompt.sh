@@ -197,6 +197,17 @@ find_git_stash_status() {
 
 PROMPT_COMMAND="find_git_branch; find_git_dirty; find_git_ahead_behind; find_git_stash_status; $PROMPT_COMMAND"
 
+# The above works for bash.  For zsh we need this:
+if [[ -n "$ZSH_NAME" ]]; then
+  setopt PROMPT_SUBST
+
+  autoload add-zsh-hook
+  add-zsh-hook precmd find_git_branch
+  add-zsh-hook precmd find_git_dirty
+  add-zsh-hook precmd find_git_ahead_behind
+  add-zsh-hook precmd find_git_stash_status
+fi
+
 # Default Git enabled prompt with dirty state
 # export PS1="\u@\h \w\[$txtcyn\]\$git_branch\[$txtred\]\$git_ahead_mark\$git_behind_mark\$git_dirty\[$txtrst\]\$ "
 

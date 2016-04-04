@@ -126,6 +126,13 @@ export PS1="\${debian_chroot:+(\$debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]
 ```
 
 
+#### ZSH
+
+```zsh
+export PROMPT='%n@%m:%~%{$bldpur%}$git_branch%{$bldgrn%}$git_ahead_mark$git_ahead_count%{$bldred%}$git_behind_mark$git_behind_count%{$bldylw%}$git_stash_mark%{$txtrst$txtylw%}$git_dirty$git_dirty_count%{$txtcyn%}$git_staged_mark$git_staged_count%{$txtblu%}$git_unknown_mark$git_unknown_count%{$txtrst%}$ '
+```
+
+
 ## Updating
 
 Assuming you followed the default installation instructions and cloned this
