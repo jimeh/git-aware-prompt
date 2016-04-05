@@ -20,12 +20,16 @@ find_git_branch() {
       fi
     fi
     local git_dir="$(git rev-parse --show-toplevel)/.git"
-    if [[ -d "$git_dir/rebase-merge" ]]; then
+    if [[ -d "$git_dir/rebase-merge" ]] || [[ -d "$git_dir/rebase-apply" ]]; then
       branch="$branch>rebase"
     elif [[ -f "$git_dir/MERGE_HEAD" ]]; then
       branch="$branch>merge"
     elif [[ -f "$git_dir/CHERRY_PICK_HEAD" ]]; then
       branch="$branch>pick"
+    elif [[ -f "$git_dir/REVERT_HEAD" ]]; then
+      branch="$branch>revert"
+    elif [[ -f "$git_dir/BISECT_LOG" ]]; then
+      branch="$branch>bisect"
     fi
     git_branch=" [$branch]"
   else
