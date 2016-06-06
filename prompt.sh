@@ -2,8 +2,13 @@ find_git_branch() {
   # Based on: http://stackoverflow.com/a/13003854/170413
   local branch
   if branch=$(git rev-parse --abbrev-ref HEAD 2> /dev/null); then
+    # check to see if on a tag
     if [[ "$branch" == "HEAD" ]]; then
-      branch='detached*'
+      if tag=$(git describe --exact-match >&1 2> /dev/null); then
+        branch="tags/$tag"
+      else
+        branch='detached*'
+      fi
     fi
     git_branch="($branch)"
   else
