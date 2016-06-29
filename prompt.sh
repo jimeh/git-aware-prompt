@@ -5,6 +5,8 @@
 find_git_branch() {
   # Based on: http://stackoverflow.com/a/13003854/170413
   local branch
+  local upstream
+  local is_branch
   if branch=$(git rev-parse --abbrev-ref HEAD 2> /dev/null); then
     if [[ "$branch" == "HEAD" ]]; then
       # Check for tag.  From jordi-adell's branch.
@@ -18,20 +20,30 @@ find_git_branch() {
         # Or the long hash, with no leading '#'
         #branch=$(git rev-parse HEAD 2> /dev/null)
       fi
+    else
+      # This is a named branch.  (It might be local or remote.)
+      upstream=$(git rev-parse '@{upstream}' 2> /dev/null)
+      is_branch=true
+    fi
+    if [[ -n "$is_branch" && -n "$upstream" ]]; then
+      git_branch=" [$branch]"     # Branch has an upstream
+    elif [[ -n "$is_branch" ]]; then
+      git_branch=" ($branch)"     # Branch has no upstream
+    else
+      git_branch=" <$branch>"     # Detached
     fi
     local git_dir="$(git rev-parse --show-toplevel)/.git"
     if [[ -d "$git_dir/rebase-merge" ]] || [[ -d "$git_dir/rebase-apply" ]]; then
-      branch="$branch>rebase"
+      git_branch=" {$branch\\rebase}"
     elif [[ -f "$git_dir/MERGE_HEAD" ]]; then
-      branch="$branch>merge"
+      git_branch=" {$branch\\merge}"
     elif [[ -f "$git_dir/CHERRY_PICK_HEAD" ]]; then
-      branch="$branch>pick"
+      git_branch=" {$branch\\pick}"
     elif [[ -f "$git_dir/REVERT_HEAD" ]]; then
-      branch="$branch>revert"
+      git_branch=" {$branch\\revert}"
     elif [[ -f "$git_dir/BISECT_LOG" ]]; then
-      branch="$branch>bisect"
+      git_branch=" {$branch\\bisect}"
     fi
-    git_branch=" [$branch]"
   else
     git_branch=""
   fi
