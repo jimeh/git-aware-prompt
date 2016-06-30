@@ -7,6 +7,7 @@ find_git_branch() {
   local branch
   local upstream
   local is_branch
+  local special_state
   if branch=$(git rev-parse --abbrev-ref HEAD 2> /dev/null); then
     if [[ "$branch" == "HEAD" ]]; then
       # Check for tag.  From jordi-adell's branch.
@@ -25,24 +26,26 @@ find_git_branch() {
       upstream=$(git rev-parse '@{upstream}' 2> /dev/null)
       is_branch=true
     fi
-    if [[ -n "$is_branch" && -n "$upstream" ]]; then
+    local git_dir="$(git rev-parse --show-toplevel)/.git"
+    if [[ -d "$git_dir/rebase-merge" ]] || [[ -d "$git_dir/rebase-apply" ]]; then
+      special_state=rebase
+    elif [[ -f "$git_dir/MERGE_HEAD" ]]; then
+      special_state=merge
+    elif [[ -f "$git_dir/CHERRY_PICK_HEAD" ]]; then
+      special_state=pick
+    elif [[ -f "$git_dir/REVERT_HEAD" ]]; then
+      special_state=revert
+    elif [[ -f "$git_dir/BISECT_LOG" ]]; then
+      special_state=bisect
+    fi
+    if [[ -n "$special_state" ]]; then
+      git_branch=" {$branch\\$special_state}"
+    elif [[ -n "$is_branch" && -n "$upstream" ]]; then
       git_branch=" [$branch]"     # Branch has an upstream
     elif [[ -n "$is_branch" ]]; then
       git_branch=" ($branch)"     # Branch has no upstream
     else
       git_branch=" <$branch>"     # Detached
-    fi
-    local git_dir="$(git rev-parse --show-toplevel)/.git"
-    if [[ -d "$git_dir/rebase-merge" ]] || [[ -d "$git_dir/rebase-apply" ]]; then
-      git_branch=" {$branch\\rebase}"
-    elif [[ -f "$git_dir/MERGE_HEAD" ]]; then
-      git_branch=" {$branch\\merge}"
-    elif [[ -f "$git_dir/CHERRY_PICK_HEAD" ]]; then
-      git_branch=" {$branch\\pick}"
-    elif [[ -f "$git_dir/REVERT_HEAD" ]]; then
-      git_branch=" {$branch\\revert}"
-    elif [[ -f "$git_dir/BISECT_LOG" ]]; then
-      git_branch=" {$branch\\bisect}"
     fi
   else
     git_branch=""
