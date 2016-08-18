@@ -25,7 +25,7 @@ find_git_delta() {
   then
     local stat
     stat=$(git diff --shortstat)
-    git_delta=$(echo $stat | perl -l -ane 'if (/(?:(\d+)? files? changed)?, (?:(\d+?)\sinsertion)+?.+?(?:(\d+?)\sdeletion)+?/){ print " $1 Δ +$2:-$3" }')
+    git_delta=$(echo $stat | perl -l -ane 'if (/(?:(\d+)? files? changed)?, (?:(\d+?)\sinsertion)?.+?(?:(\d+?)\sdeletion)+?/){ print " $1 Δ +$2:-$3" }')
   else git_delta=''
   fi
 }
