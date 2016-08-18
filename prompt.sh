@@ -20,7 +20,18 @@ find_git_dirty() {
   fi
 }
 
-PROMPT_COMMAND="find_git_branch; find_git_dirty; $PROMPT_COMMAND"
+find_git_delta() {
+  if [[ $(git rev-parse --is-inside-work-tree 2> /dev/null) ]]
+  then
+    local stat
+    stat=$(git diff --shortstat)
+    git_delta=$(echo $stat | perl -l -ane 'if (/(?:(\d+)? files? changed)?, (?:(\d+?)\sinsertion)+?.+?(?:(\d+?)\sdeletion)+?/){ print " $1 Δ +$2:-$3" }')
+  else git_delta=''
+  fi
+}
+
+
+PROMPT_COMMAND="find_git_branch; find_git_dirty; find_git_delta; $PROMPT_COMMAND"
 
 # Default Git enabled prompt with dirty state
 # export PS1="\u@\h \w \[$txtcyn\]\$git_branch\[$txtred\]\$git_dirty\[$txtrst\]\$ "
