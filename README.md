@@ -24,10 +24,13 @@ directory, your prompt works like normal.
 This fork by joeytwiddle also:
 - shows you how far your local branch is **ahead** or **behind** the repository's branch
 - shows how many files are **staged**
-- indicates when the top **stash** entry was based on the current commit or branch
+- indicates when you have an un-popped **stash** (when the top stash entry was made on the current commit or the current branch)
+- displays when you are on a **detached** commit, or paused during a merge, rebase or cherry-pick
 - adds a **timeout** for slower machines so that you will get your prompt quickly, even if `git status` is taking too long to retrieve the dirty and staged stats. (Tested in bash and zsh.)
 
 If you *only* want the ahead/behind marks (no timeout and no staged stats), you may prefer the branch [ahead_behind](https://github.com/joeytwiddle/git-aware-prompt/tree/ahead_behind) or if you are curious about the code, see [ahead_behind_simple](https://github.com/joeytwiddle/git-aware-prompt/tree/ahead_behind_simple) ([compare](https://github.com/joeytwiddle/git-aware-prompt/compare/jimeh:518685d5d42ab9f298207dd66bbc213775c5cbee...ahead_behind_simple?expand=1)).
+
+The initial implementation of the timeout feature is on [this commit](https://github.com/joeytwiddle/git-aware-prompt/commit/29a89c1e6890689c819303ad33ef70ae4233589c).
 
 ![Git Branch in Prompt](https://raw.github.com/joeytwiddle/git-aware-prompt/master/preview.png)
 
