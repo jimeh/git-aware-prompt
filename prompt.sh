@@ -21,7 +21,7 @@ find_git_branch() {
 
 find_git_stash() {
   local stash
-  if stash=$(git stash list 2>/dev/null | grep $branch 2> /dev/null); then
+  if stash=$(git stash list 2>/dev/null | grep "WIP on $branch" 2> /dev/null); then
     git_stash="[$hasstash]"
   else
     git_stash=""
