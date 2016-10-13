@@ -69,6 +69,8 @@ your `PS1` variable, and make sure the variable value is defined with double
 quotes. A set of color variables have also been set for you to use. For a list
 of available colors check `colors.sh`.
 
+If you would like to use a symbol other than '*' to indicate that the branch is 
+dirty, simply set the `dirtysmb` to whatever symbol you would like and export it.
 
 ## Updating
 
