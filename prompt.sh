@@ -20,7 +20,19 @@ find_git_dirty() {
   fi
 }
 
-PROMPT_COMMAND="find_git_branch; find_git_dirty; $PROMPT_COMMAND"
+set_ps1() {
+	if [[ "$git_dirty" != "" && "$git_branch" != "" ]]; then
+		ps1="${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\W\[\033[01;32m\] \$git_branch\[\033[00;31m\]\$git_dirty\[\033[00m\]\[\033[01;34m\] \$\[\033[00m\] " 
+	elif [[ "$git_dirty" == "" && "$git_branch" != "" ]]; then 
+		ps1="${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\W\[\033[01;32m\] \$git_branch\[\033[01;34m\] \$\[\033[00m\] "
+	else 
+		ps1="${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\W \$\[\033[00m\] "
+	fi
+
+	export PS1="$ps1"
+}
+
+PROMPT_COMMAND="find_git_branch; find_git_dirty; set_ps1; $PROMPT_COMMAND"
 
 # Default Git enabled prompt with dirty state
 # export PS1="\u@\h \w \[$txtcyn\]\$git_branch\[$txtred\]\$git_dirty\[$txtrst\]\$ "
