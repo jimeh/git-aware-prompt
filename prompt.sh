@@ -21,7 +21,7 @@ find_git_branch() {
 
 find_git_stash() {
   local stash
-  if stash=$(git stash list 2>/dev/null | cut -d: -f2 | grep "$branch" 2> /dev/null); then
+  if [[ -n $(git stash list --grep-reflog="${branch}:" 2> /dev/null ) ]]; then
     git_stash="[$hasstash]"
   else
     git_stash=""
