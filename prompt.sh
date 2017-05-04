@@ -12,9 +12,21 @@ find_git_branch() {
 }
 
 find_git_dirty() {
-  local status=$(git status --porcelain 2> /dev/null)
-  if [[ "$status" != "" ]]; then
-    git_dirty='*'
+  local branch
+  if branch=$(git rev-parse --abbrev-ref HEAD 2> /dev/null); then
+    #local status=$(git status --porcelain 2> /dev/null)  # very slow for large repos!
+    #local has_staged_changes=$(git diff-index --quiet --cached HEAD 2> /dev/null)
+    #local has_stageable_files=$(git diff-files --quiet  2> /dev/null)
+    local status=$(git diff-index --quiet HEAD  2> /dev/null ; echo $?)
+    if [[ "$status" == "0" ]]; then
+      git_dirty=''
+    elif [[ "$status" == "1" ]]; then
+      git_dirty='*'
+    elif [[ "$status" == "128" ]]; then
+      git_dirty=' no_worktree'
+    else
+      git_dirty=" err_$status" # to show if anything else went wrong.
+    fi
   else
     git_dirty=''
   fi
