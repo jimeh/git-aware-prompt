@@ -21,12 +21,17 @@ find_git_dirty() {
 }
 
 find_head_tag() {
-  local tag=$(git tag --column --points-at HEAD 2> /dev/null)
-  if [[ ! -z $tag ]]; then
-    git_head_tag="HEAD:$tag"
+  local is_in_git=$(git rev-parse --is-inside-work-tree 2> /dev/null)
+  if [[ "$is_in_git" = "true" ]]; then
+    local tag=$(git tag --column --points-at HEAD 2> /dev/null)
+    if [[ ! -z $tag ]]; then
+      git_head_tag="HEAD:$tag"
+    else
+      git_head_tag='HEAD:not tagged'
+    fi
   else
-    git_head_tag='HEAD:not tagged'
-  fi
+    git_head_tag=''
+  fi 
 }
 
 PROMPT_COMMAND="find_git_branch; find_git_dirty; find_head_tag; $PROMPT_COMMAND"
