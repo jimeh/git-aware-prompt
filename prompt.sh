@@ -20,7 +20,16 @@ find_git_dirty() {
   fi
 }
 
-PROMPT_COMMAND="find_git_branch; find_git_dirty; $PROMPT_COMMAND"
+find_head_tag() {
+  local tag=$(git tag --column --points-at HEAD 2> /dev/null)
+  if [[ ! -z $tag ]]; then
+    git_head_tag="HEAD:$tag"
+  else
+    git_head_tag='HEAD:not tagged'
+  fi
+}
+
+PROMPT_COMMAND="find_git_branch; find_git_dirty; find_head_tag; $PROMPT_COMMAND"
 
 # Default Git enabled prompt with dirty state
 # export PS1="\u@\h \w \[$txtcyn\]\$git_branch\[$txtred\]\$git_dirty\[$txtrst\]\$ "
