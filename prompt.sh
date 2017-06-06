@@ -5,7 +5,6 @@ is_this_a_git_repo() {
 find_git_branch() {
   # Based on: http://stackoverflow.com/a/13003854/170413
   local branch
-  echo $is_in_git
   if [[ "$is_in_git" = "true" ]]; then
     if branch=$(git rev-parse --abbrev-ref HEAD 2> /dev/null); then
       if [[ "$branch" == "HEAD" ]]; then
