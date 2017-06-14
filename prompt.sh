@@ -5,7 +5,7 @@ is_this_a_git_repo() {
 find_git_branch() {
   # Based on: http://stackoverflow.com/a/13003854/170413
   local branch
-  if [[ "$is_in_git" = "true" ]]; then
+  if [[ "$is_in_git" == "true" ]]; then
     if branch=$(git rev-parse --abbrev-ref HEAD 2> /dev/null); then
       if [[ "$branch" == "HEAD" ]]; then
         branch='detached*'
@@ -18,18 +18,18 @@ find_git_branch() {
 }
 
 find_git_dirty() {
-  if [[ "$is_in_git" = "true" ]]; then
+  if [[ "$is_in_git" == "true" ]]; then
     local status=$(git status --porcelain 2> /dev/null)
     if [[ "$status" != "" ]]; then
       git_dirty='*'
+      return
     fi
-  else
-    git_dirty=''
   fi
+  git_dirty=''
 }
 
 find_head_tag() {
-  if [[ "$is_in_git" = "true" ]]; then
+  if [[ "$is_in_git" == "true" ]]; then
     local tag=$(git tag --column --points-at HEAD 2> /dev/null)
     if [[ ! -z $tag ]]; then
       git_head_tag="HEAD:$tag"
