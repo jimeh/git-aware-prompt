@@ -1,3 +1,5 @@
+Forked from: https://github.com/jimeh/git-aware-prompt
+
 # Git Aware Prompt
 
 Working with Git and its great branching/merging features is
