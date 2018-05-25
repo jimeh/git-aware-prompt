@@ -1,23 +1,31 @@
 find_git_branch() {
   # Based on: http://stackoverflow.com/a/13003854/170413
   local branch
-  if branch=$(git rev-parse --abbrev-ref HEAD 2> /dev/null); then
-    if [[ "$branch" == "HEAD" ]]; then
-      branch='detached*'
+  if [ x$DISABLE_GIT_AWARE = x ]; then
+    if branch=$(git rev-parse --abbrev-ref HEAD 2> /dev/null); then
+      if [[ "$branch" == "HEAD" ]]; then
+        branch='detached*'
+      fi
+      git_branch="($branch)"
+    else
+      git_branch=""
     fi
-    git_branch="($branch)"
   else
     git_branch=""
-  fi
+  fi  
 }
 
 find_git_dirty() {
-  local status=$(git status --porcelain 2> /dev/null)
-  if [[ "$status" != "" ]]; then
-    git_dirty='*'
+  if [ x$DISABLE_GIT_AWARE = x ]; then 
+    local status=$(git status --porcelain 2> /dev/null)
+    if [[ "$status" != "" ]]; then
+      git_dirty='*'
+    else
+      git_dirty=''
+    fi
   else
     git_dirty=''
-  fi
+  fi  
 }
 
 PROMPT_COMMAND="find_git_branch; find_git_dirty; $PROMPT_COMMAND"
