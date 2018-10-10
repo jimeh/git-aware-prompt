@@ -65,7 +65,7 @@ end of the same file you pasted the installation code into earlier.
 #### Mac OS X
 
 ```bash
-export PS1="\u@\h \W \[$txtcyn\]\$git_branch\[$txtred\]\$git_dirty\[$txtrst\]\$ "
+export PS1="\u@\h \W \[\$txtcyn\]\$git_branch\[\$txtred\]\$git_dirty\[\$txtrst\]\$ "
 ```
 
 Optionally, if you want a nice pretty prompt when using `sudo -s`, also add
