@@ -1,14 +1,20 @@
 find_git_branch() {
   # Based on: http://stackoverflow.com/a/13003854/170413
-  local branch
-  if branch=$(git rev-parse --abbrev-ref HEAD 2> /dev/null); then
-    if [[ "$branch" == "HEAD" ]]; then
-      branch='detached*'
+    local branch
+    if branch=$(git rev-parse --abbrev-ref HEAD 2> /dev/null); then
+	if [[ "$branch" == "HEAD" ]]; then
+	    branch=$(git name-rev --tags --name-only $(git rev-parse HEAD))
+	    if [[ $branch == *"~"* || $branch == *" "* ]]; then
+		git_branch="(detached*)";
+	    else
+		git_branch="[$branch]"
+	    fi
+	else
+	    git_branch="($branch)"
+	fi
+    else
+	git_branch=""
     fi
-    git_branch="($branch)"
-  else
-    git_branch=""
-  fi
 }
 
 find_git_dirty() {
@@ -20,7 +26,7 @@ find_git_dirty() {
   fi
 }
 
-PROMPT_COMMAND="find_git_branch; find_git_dirty; $PROMPT_COMMAND"
+export PROMPT_COMMAND="find_git_branch; $PROMPT_COMMAND"
 
 # Default Git enabled prompt with dirty state
 # export PS1="\u@\h \w \[$txtcyn\]\$git_branch\[$txtred\]\$git_dirty\[$txtrst\]\$ "
