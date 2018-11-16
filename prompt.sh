@@ -14,7 +14,8 @@ find_git_branch() {
 find_git_dirty() {
   local status=$(git status --porcelain 2> /dev/null)
   if [[ "$status" != "" ]]; then
-    git_dirty='*'
+    local change_count=$(echo "$status" | wc -l | tr -d '[[:space:]]')
+    git_dirty=$change_count
   else
     git_dirty=''
   fi
