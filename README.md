@@ -55,6 +55,9 @@ this article: [How to: Change / Setup bash custom prompt (PS1)][how-to]
 
 [how-to]: http://www.cyberciti.biz/tips/howto-linux-unix-bash-shell-setup-prompt.html
 
+If you don't want untracked files to be included in the "dirty" decision process,
+set the variable `GIT_PROMPT_IGNORE_UNTRACKED` to any value.
+
 
 ### Suggested Prompts
 
