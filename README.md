@@ -48,6 +48,16 @@ The initial implementation of the timeout feature is on [this commit](https://gi
 
 > `(s)` is a reminder that the top stash was made on the current branch, or the current commit.
 
+We also have some indicators for the current branch:
+
+> `[branch_name]` means you are on a branch with an upstream
+
+> `(branch_name)` means you are on a branch without an upstream
+
+> `{branch_name\mode}` means you are in the middle of a merge, rebase, cherry-pick, revert or bisect
+
+> `<commit_id>` means you are detached on the given commit
+
 The symbols (or "markers") can be changed by editing the `prompt.sh` file directly (and reloading it of course).  The numbers or the markers can be omitted by removing the `_count` or `_mark` variables from the `PS1` prompt below.
 
 
