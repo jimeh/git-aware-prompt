@@ -34,7 +34,7 @@ cd ~/.bash
 git clone git://github.com/jimeh/git-aware-prompt.git
 ```
 
-Edit your `~/.bash_profile` or `~/.profile` or `~/.bashrc` (for Ubuntu) and add the following to the top:
+Edit your `~/.bash_profile` or `~/.profile` or `~/.bashrc` (for Ubuntu) and add the following to the top (or bottom for Ubuntu):
 
 ```bash
 export GITAWAREPROMPT=~/.bash/git-aware-prompt
