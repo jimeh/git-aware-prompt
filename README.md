@@ -38,6 +38,7 @@ Edit your `~/.bash_profile` or `~/.profile` or `~/.bashrc` (for Ubuntu) and add 
 
 ```bash
 export GITAWAREPROMPT=~/.bash/git-aware-prompt
+export MAX_BRANCH_NAME_SIZE=30
 source "${GITAWAREPROMPT}/main.sh"
 ```
 
