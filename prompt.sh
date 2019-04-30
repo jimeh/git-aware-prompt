@@ -1,6 +1,11 @@
 find_git_repo() {
+  # See also: http://stackoverflow.com/q/15715825/
   local repo
-  if repo=$(git rev-parse --show-toplevel 2> /dev/null); then
+  # Try to get the name of the repository from the remote 'origin'
+  if repo=$(git config --local remote.origin.url 2> /dev/null); then
+    git_repo="($(basename "$repo" .git))"
+  # Fall back to using the name of the Git root directory if there is no remote called origin
+  elif repo=$(git rev-parse --show-toplevel 2> /dev/null); then
     git_repo="($(basename "$repo"))"
   else
     git_repo=""
