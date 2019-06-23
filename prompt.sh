@@ -11,9 +11,12 @@ find_git_branch() {
   if branch=$(git rev-parse --abbrev-ref HEAD 2> /dev/null); then
     if [[ "$branch" == "HEAD" ]]; then
       # Check for tag.  From jordi-adell's branch.
-      branch=$(git name-rev --tags --name-only $(git rev-parse HEAD))
-      if ! [[ $branch == *"~"* || $branch == *" "* || $branch == undefined ]]; then
-        branch="+${branch}"
+      #branch=$(git name-rev --tags --name-only $(git rev-parse HEAD))
+      #if ! [[ $branch == *"~"* || $branch == *" "* || $branch == undefined ]]; then
+      #  branch="+${branch}"
+      # Or check for tag, by dafeder (just trying this alternative out)
+      if tag=$(git describe --exact-match >&1 2> /dev/null); then
+        branch="+$tag"
       else
         #branch='<detached>'
         # Or show the short hash
