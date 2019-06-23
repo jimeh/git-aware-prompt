@@ -212,7 +212,7 @@ find_git_stash_status() {
     # This sets the stash marker if either the current commit or the current branch name is mentioned in the top stack entry.
     # CONSIDER: Alternatively we could have just grepped `git stash list` for either the commit_id or the branch_name.  This would also indicate older matching stashes.
     if [[ "$stashed_commit" = "$current_commit" ]] || [[ -n "$current_branch" ]] && [[ "$stashed_branch" = "$current_branch" ]]; then
-      git_stash_mark='(s)'
+      git_stash_mark='≡'
     fi
   fi
 }
