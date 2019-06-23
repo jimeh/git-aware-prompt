@@ -63,13 +63,17 @@ The symbols (or "markers") can be changed by editing the `prompt.sh` file direct
 
 ## See Also
 
-- The [original git-aware-prompt](https://github.com/jimeh/git-aware-prompt) by jimeh
+- The [original git-aware-prompt](https://github.com/jimeh/git-aware-prompt) by jimeh, from which this version is forked
 
 - The [prompt now distributed with git](https://github.com/git/git/blob/master/contrib/completion/git-prompt.sh) offers a `GIT_PS1_SHOWUPSTREAM` option.
 
 - [Oh-my-zsh](https://github.com/robbyrussell/oh-my-zsh) also has its own [git-prompt](https://github.com/robbyrussell/oh-my-zsh/blob/master/plugins/gitfast/git-prompt.sh).  (It has 500 lines compared to our 200.)
 
-- Inspiration for this fork came from [git-branch-status](https://gist.github.com/jehiah/1288596) by jehiah
+- Inspiration for this fork came from [git-branch-status](https://gist.github.com/jehiah/1288596) by jehiah (a command, not a prompt)
+
+- [pure](https://github.com/sindresorhus/pure) prompt by sindresorhus includes good git support (for zsh only)
+
+- [liquidprompt](https://github.com/nojhan/liquidprompt) includes some git support (for bash and zsh)
 
 
 ## Installation
