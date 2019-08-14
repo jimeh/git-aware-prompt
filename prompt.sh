@@ -4,7 +4,7 @@ find_git_branch() {
   if branch=$(git rev-parse --abbrev-ref HEAD 2> /dev/null); then
     # check to see if on a tag
     if [[ "$branch" == "HEAD" ]]; then
-      if tag=$(git describe --exact-match >&1 2> /dev/null); then
+      if tag=$(git describe --exact-match --tags >&1 2> /dev/null); then
         branch="tags/$tag"
       else
         branch='detached*'
