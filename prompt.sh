@@ -7,6 +7,7 @@ find_git_branch() {
   local branch
   local upstream
   local is_branch
+  local git_dir
   local special_state
   if branch=$(git rev-parse --abbrev-ref HEAD 2> /dev/null); then
     if [[ "$branch" == "HEAD" ]]; then
@@ -18,18 +19,23 @@ find_git_branch() {
       if tag=$(git describe --exact-match >&1 2> /dev/null); then
         branch="+$tag"
       else
-        #branch='<detached>'
-        # Or show the short hash
-        branch='#'$(git rev-parse --short HEAD 2> /dev/null)
-        # Or the long hash, with no leading '#'
-        #branch=$(git rev-parse HEAD 2> /dev/null)
+        # If it a remote branch, show that
+        branch=$(git name-rev --name-only HEAD | sed 's+^remotes/++')
+        # But name-rev will also return if it is a few steps back from a remote branch, which sucks, so don't display that
+        if [[ "$branch" == "undefined" ]] || grep '\~' <<< "$branch" >/dev/null; then
+          #branch='<detached>'
+          # Or show the short hash
+          branch='#'$(git rev-parse --short HEAD 2> /dev/null)
+          # Or the long hash, with no leading '#'
+          #branch=$(git rev-parse HEAD 2> /dev/null)
+        fi
       fi
     else
-      # This is a named branch.  (It might be local or remote.)
-      upstream=$(git rev-parse '@{upstream}' 2> /dev/null)
+      # This is a named branch
       is_branch=true
+      upstream=$(git rev-parse '@{upstream}' 2> /dev/null)
     fi
-    local git_dir="$(git rev-parse --show-toplevel)/.git"
+    git_dir="$(git rev-parse --show-toplevel)/.git"
     if [[ -d "$git_dir/rebase-merge" ]] || [[ -d "$git_dir/rebase-apply" ]]; then
       special_state=rebase
     elif [[ -f "$git_dir/MERGE_HEAD" ]]; then
