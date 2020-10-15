@@ -40,7 +40,7 @@ find_git_branch() {
       special_state=rebase
     elif [[ -f "$git_dir/MERGE_HEAD" ]]; then
       special_state=merge
-    elif [[ -f "$git_dir/CHERRY_PICK_HEAD" ]]; then
+    elif [[ -f "$git_dir/CHERRY_PICK_HEAD" ]] || [[ -f "$git_dir/sequencer/todo" ]]; then
       special_state=pick
     elif [[ -f "$git_dir/REVERT_HEAD" ]]; then
       special_state=revert
