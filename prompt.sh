@@ -16,10 +16,10 @@ find_git_branch() {
       #if ! [[ $branch == *"~"* || $branch == *" "* || $branch == undefined ]]; then
       #  branch="+${branch}"
       # Or check for tag, by dafeder (just trying this alternative out)
-      if tag=$(git describe --exact-match >&1 2> /dev/null); then
+      if tag=$(git describe --exact-match --tags >&1 2> /dev/null); then
         branch="+$tag"
       else
-        # If it a remote branch, show that
+        # If it a remote branch, show that (this can also produce tags/...)
         branch=$(git name-rev --name-only HEAD | sed 's+^remotes/++')
         # But name-rev will also return if it is a few steps back from a remote branch, which sucks, so don't display that
         if [[ "$branch" == "undefined" ]] || grep '\~' <<< "$branch" >/dev/null; then
