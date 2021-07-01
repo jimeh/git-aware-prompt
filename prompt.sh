@@ -186,17 +186,21 @@ find_git_ahead_behind() {
     # If the branch is not tracking a specific remote branch, then assume we are tracking origin/[this_branch_name]
     [[ -z "$upstream_branch" ]] && upstream_branch="origin/$local_branch"
     if [[ -n "$upstream_branch" ]]; then
-      git_ahead_count=$(git rev-list --left-right ${local_branch}...${upstream_branch} 2> /dev/null | grep -c '^<')
-      git_behind_count=$(git rev-list --left-right ${local_branch}...${upstream_branch} 2> /dev/null | grep -c '^>')
-      if [[ "$git_ahead_count" = 0 ]]; then
-        git_ahead_count=''
-      else
+      # These always return a number
+      #git_ahead_count=$(git rev-list --left-right ${local_branch}...${upstream_branch} 2> /dev/null | grep -c '^<')
+      #git_behind_count=$(git rev-list --left-right ${local_branch}...${upstream_branch} 2> /dev/null | grep -c '^>')
+      # If the upstream does not exist, these will return ""
+      git_ahead_count=$(git rev-list --count ${upstream_branch}..${local_branch} 2> /dev/null)
+      git_behind_count=$(git rev-list --count ${local_branch}..${upstream_branch} 2> /dev/null)
+      if [[ "$git_ahead_count" -gt 0 ]]; then
         git_ahead_mark='>'
-      fi
-      if [[ "$git_behind_count" = 0 ]]; then
-        git_behind_count=''
       else
+        git_ahead_count=''
+      fi
+      if [[ "$git_behind_count" -gt 0 ]]; then
         git_behind_mark='<'
+      else
+        git_behind_count=''
       fi
     fi
   fi
