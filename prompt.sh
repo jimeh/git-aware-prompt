@@ -35,7 +35,7 @@ find_git_branch() {
       is_branch=true
       upstream=$(git rev-parse '@{upstream}' 2> /dev/null)
     fi
-    git_dir="$(git rev-parse --show-toplevel 2> /dev/null)/.git"
+    git_dir="$(git rev-parse --show-toplevel)/.git"
     if [[ -d "$git_dir/rebase-merge" ]] || [[ -d "$git_dir/rebase-apply" ]]; then
       special_state=rebase
     elif [[ -f "$git_dir/MERGE_HEAD" ]]; then
