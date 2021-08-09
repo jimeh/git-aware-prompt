@@ -32,31 +32,33 @@ If you *only* want the ahead/behind marks (no timeout and no staged stats), you 
 
 The initial implementation of the timeout feature is on [this commit](https://github.com/joeytwiddle/git-aware-prompt/commit/29a89c1e6890689c819303ad33ef70ae4233589c).
 
-![Git Branch in Prompt](https://raw.github.com/joeytwiddle/git-aware-prompt/master/preview.png)
+![Git Branch in Prompt](https://github.com/joeytwiddle/git-aware-prompt/raw/master/preview.png)
 
-> `<3` indicates that the local branch is 3 commits behind the upstream/remote branch, and could be updated.
-
-> `*2` indicates that the branch is now dirty, with 2 files modified but not committed.
-
-> `>1` indicates that the local branch has 1 commit which has not yet been pushed.
-
-> `+1` would indicate that you have staged 1 file before comitting, but that is not shown above.
-
-> `?4` would indicate that there are 4 untracked files in the tree, also not shown.
-
-> `#` indicates that `git status` was taking too long, so dirty `*` staged `+` and untracked `?` markers will not be shown this time.  `git status` will continue running in the background, so after a few moments, hitting `<Enter>` again should give you an up-to-date summary.
-
-> `(s)` is a reminder that the top stash was made on the current branch, or the current commit.
+> `≡` is a reminder that I have something on the stash.
+>
+> `<3` indicates that the local branch is 3 commits behind the upstream (remote) branch, and could/should be pulled.
+>
+> `?1` indicates that there is 1 untracked file in the tree.
+>
+> `+1` indicates that one file is staged for comitting.
+>
+> `>1` indicates that the local branch has 1 commit which has not yet been pushed to the upstream.
+>
+> `*1` indicates that the branch is dirty, with 1 file modified but not committed.
+>
+> `#` would indicate that `git status` has taken too long, so the markers are not shown.
+>
+>  In that situation, `git status` will continue running in the background, so after a few moments, hitting `<Enter>` again should give you an up-to-date summary.
 
 We also have some indicators for the current branch:
 
 > `[branch_name]` means you are on a branch with an upstream
-
+>
 > `(branch_name)` means you are on a branch without an upstream
-
+>
 > `{branch_name\mode}` means you are in the middle of a merge, rebase, cherry-pick, revert or bisect
-
-> `<commit_id>` means you are detached on the given commit
+>
+> `<commit_id>` means you are detached on the given commit, tag, or remote branch
 
 The symbols (or "markers") can be changed by editing the `prompt.sh` file directly (and reloading it of course).  The numbers or the markers can be omitted by removing the `_count` or `_mark` variables from the `PS1` prompt below.
 
