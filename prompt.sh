@@ -227,7 +227,7 @@ find_git_stash_status() {
   fi
 }
 
-PROMPT_COMMAND="find_git_branch; find_git_dirty; find_git_ahead_behind; find_git_stash_status; $PROMPT_COMMAND"
+PROMPT_COMMAND="find_git_branch; find_git_dirty; find_git_ahead_behind; find_git_stash_status; ${PROMPT_COMMAND:-}"
 
 # The above works for bash.  For zsh we need this:
 if [[ -n "$ZSH_NAME" ]]; then
