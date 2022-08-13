@@ -31,7 +31,7 @@ Clone the project to a `.bash` folder in your home directory:
 ```bash
 mkdir ~/.bash
 cd ~/.bash
-git clone git://github.com/jimeh/git-aware-prompt.git
+git clone git@github.com:jimeh/git-aware-prompt.git
 ```
 
 Edit your `~/.bash_profile` or `~/.profile` or `~/.bashrc` (for Ubuntu) and add the following to the top:
