@@ -12,8 +12,9 @@ find_git_branch() {
 }
 
 find_git_dirty() {
-  local status=$(git status --porcelain 2> /dev/null)
-  if [[ "$status" != "" ]]; then
+  # In zsh "status" is a reserved word, so may not be used as a variable
+  local _status=$(git status --porcelain 2> /dev/null)
+  if [[ "$_status" != "" ]]; then
     git_dirty='*'
   else
     git_dirty=''
@@ -21,6 +22,14 @@ find_git_dirty() {
 }
 
 PROMPT_COMMAND="find_git_branch; find_git_dirty; $PROMPT_COMMAND"
+
+# The above works for bash.  For zsh we need this:
+if [[ -n "$ZSH_NAME" ]]; then
+  setopt PROMPT_SUBST
+  autoload add-zsh-hook
+  add-zsh-hook precmd find_git_branch
+  add-zsh-hook precmd find_git_dirty
+fi
 
 # Default Git enabled prompt with dirty state
 # export PS1="\u@\h \w \[$txtcyn\]\$git_branch\[$txtred\]\$git_dirty\[$txtrst\]\$ "
