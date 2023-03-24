@@ -22,7 +22,7 @@ find_git_branch() {
         # If it a remote branch, show that (this can also produce tags/...)
         branch=$(git name-rev --name-only HEAD | sed 's+^remotes/++')
         # But name-rev will also return if it is a few steps back from a remote branch, which sucks, so don't display that
-        if [[ "$branch" == "undefined" ]] || grep '\~' <<< "$branch" >/dev/null; then
+        if [[ "$branch" == "undefined" ]] || grep '[~]' <<< "$branch" >/dev/null; then
           #branch='<detached>'
           # Or show the short hash
           branch='#'$(git rev-parse --short HEAD 2> /dev/null)
