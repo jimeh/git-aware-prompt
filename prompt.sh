@@ -1,3 +1,19 @@
+format_output() {
+  # This will strip the central portion of the branch name and replace it
+  # with three dot to reduce the space occupied
+  if [[ ! -z "$MAX_BRANCH_NAME_SIZE" ]]; then
+    size=${#1}
+    if [[ ${size} -le ${MAX_BRANCH_NAME_SIZE} ]]; then
+      echo $1
+    else
+      n=$(((MAX_BRANCH_NAME_SIZE-3) / 2))
+      echo ${1:0:$n}"..."${1:(-$n)}
+    fi
+  else
+     echo $1
+  fi
+}
+
 find_git_branch() {
   # Based on: http://stackoverflow.com/a/13003854/170413
   local branch
@@ -5,7 +21,7 @@ find_git_branch() {
     if [[ "$branch" == "HEAD" ]]; then
       branch='detached*'
     fi
-    git_branch="($branch)"
+    git_branch="("$(format_output $branch)")"
   else
     git_branch=""
   fi
